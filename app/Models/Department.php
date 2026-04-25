@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Location;
 
 class Department extends Model
 {
@@ -17,4 +18,9 @@ class Department extends Model
         'manager_id',
         'location_id'
     ];
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id', 'location_id');
+    }
 }

@@ -21,18 +21,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OraclehrController;
 
 Route::prefix('hr')->name('hr.')->group(function () {
+
     Route::get('/', [OraclehrController::class, 'index'])->name('index');
+
     Route::get('/dept-list', [OraclehrController::class, 'deptList'])->name('dept-list');
 
     Route::post('/dept-store', [OraclehrController::class, 'deptStore'])->name('dept-store');
 
     Route::get('/dept-edit/{id}', [OraclehrController::class, 'deptEdit'])->name('dept-edit');
 
-    Route::post('/dept-update/{id}', [OraclehrController::class, 'deptUpdate'])->name('dept-update');
+    // ✅ FIXED (POST → PUT)
+    Route::put('/dept-update/{id}', [OraclehrController::class, 'deptUpdate'])->name('dept-update');
 
-    Route::get('/dept-delete/{id}', [OraclehrController::class, 'deptDelete'])->name('dept-delete');
+    // ✅ FIXED (GET → DELETE)
+    Route::delete('/dept-delete/{id}', [OraclehrController::class, 'deptDelete'])->name('dept-delete');
 });
-
 
 
 

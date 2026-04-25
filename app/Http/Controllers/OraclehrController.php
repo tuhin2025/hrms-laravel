@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use Illuminate\Support\Facades\DB;
 
 class OraclehrController extends BaseController
 {
@@ -16,27 +17,26 @@ class OraclehrController extends BaseController
 
     public function index()
     {
-//        return view('hr.dashboard', [
-//            'employeeCount' => Employee::count(),
-//            'departmentCount' => Department::count(),
-//            'jobCount' => Job::count(),
-//            'employees' => Employee::with('department')->latest()->limit(5)->get()
-//        ]);
-        return view('hr.dashboard');
-    }
+        $departmentCount = \App\Models\Department::count();
 
+        return view('hr.dashboard', compact('departmentCount'));
+    }
 
     public function deptList()
     {
-        $departments = \App\Models\Department::all();
-        return view('dept.dept', compact('departments'));
+        $departments = \App\Models\Department::with('location')->get();
+        $locations = DB::table('locations')->get();
+
+        return view('dept.dept', compact('departments', 'locations'));
     }
+
 
     public function deptStore(Request $request)
     {
         \App\Models\Department::create([
             'department_name' => $request->department_name,
-            'manager_id' => $request-> manager_id
+            'manager_id' => $request-> manager_id,
+            'location_id'=> $request-> location_id
         ]);
 
         return redirect()->back()->with('success', 'Department Added');
@@ -45,16 +45,19 @@ class OraclehrController extends BaseController
     public function deptEdit($id)
     {
         $department = \App\Models\Department::findOrFail($id);
-        return view('dept.dept', compact('department'));
-    }
+        $departments = \App\Models\Department::with('location')->get();
+        $locations = DB::table('locations')->get();
 
+        return view('dept.dept', compact('department', 'departments', 'locations'));
+    }
 
     public function deptUpdate(Request $request, $id)
     {
         $dept = \App\Models\Department::findOrFail($id);
 
         $dept->update([
-            'department_name' => $request->department_name
+            'department_name' => $request->department_name,
+            'location_id'     => $request->location_id, // ✅ ADD THIS
         ]);
 
         return redirect()->route('hr.dept-list')->with('success', 'Updated');

@@ -1,4 +1,7 @@
+
+
 <div class="sidebar">
+
     <h4 class="text-center py-2 border-bottom">HRMS</h4>
 
     <a href="{{ url('/hr') }}">🏠 Dashboard</a>

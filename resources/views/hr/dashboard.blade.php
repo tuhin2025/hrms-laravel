@@ -14,7 +14,7 @@
         <div class="col-md-4">
             <div class="card bg-success text-white p-3">
                 <h5>Departments</h5>
-{{--                <h3>{{ $departmentCount }}</h3>--}}
+                <h3>{{ $departmentCount }}</h3>
             </div>
         </div>
 
