@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 use App\Http\Controllers\OraclehrController;
+use App\Http\Controllers\EmployeeController;
 
 Route::prefix('hr')->name('hr.')->group(function () {
 
@@ -38,4 +39,19 @@ Route::prefix('hr')->name('hr.')->group(function () {
 });
 
 
+Route::prefix('employee')->name('employee.')->group(function () {
 
+    Route::get('/', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
+
+//   Route::get('/dept-list', [OraclehrController::class, 'index'])->name('emp-list');
+//
+    Route::post('/dept-store', [EmployeeController::class, 'empStore'])->name('emp-store');
+//
+//    Route::get('/dept-edit/{id}', [OraclehrController::class, 'deptEdit'])->name('dept-edit');
+//
+//    // ✅ FIXED (POST → PUT)
+    Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');
+//
+//    // ✅ FIXED (GET → DELETE)
+//    Route::delete('/dept-delete/{id}', [OraclehrController::class, 'deptDelete'])->name('dept-delete');
+});
