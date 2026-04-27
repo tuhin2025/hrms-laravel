@@ -17,7 +17,9 @@
                       action="{{ isset($employee) ? route('employee.emp-update',$employee->employee_id) : route('employee.emp-store') }}">
 
                     @csrf
-                    @if(isset($employee)) @method('PUT') @endif
+                    @if(isset($employee))
+                        @method('PUT')
+                    @endif
 
                     <div class="row mb-3">
                         <div class="col-md-4">
@@ -51,12 +53,23 @@
                             <input type="date" name="hire_date" class="form-control"
                                    value="{{ old('hire_date', $employee->hire_date ?? '') }}">
                         </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>Job ID</label>
-                            <input type="text" name="job_id" class="form-control"
-                                   value="{{ old('job_id', $employee->job_id ?? '') }}">
+
+                            <select name="department_id" id="department_id" class="form-control">
+                                <option value="">-- Select Jobs --</option>
+                                @foreach($job as $jobs)
+                                    <option value="{{ $jobs->job_id }}"
+                                        {{ old('job_id', $employee->job_id ?? '') == $jobs->job_id ? 'selected' : '' }}>
+                                        {{ $jobs->job_title }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+
                         </div>
+
                     </div>
 
                     <div class="row mb-3">
@@ -68,14 +81,35 @@
 
                         <div class="col-md-3">
                             <label>Manager ID</label>
-                            <input type="number" name="manager_id" class="form-control"
-                                   value="{{ old('manager_id', $employee->manager_id ?? '') }}">
+                            <select name="manager_id" class="form-control">
+                                <option value="">-- Select Manager --</option>
+
+                                @foreach($employees as $emp)
+                                    @if($emp->employee_id != ($employee->employee_id ?? 0))
+                                        <option value="{{ $emp->employee_id }}"
+                                            {{ old('manager_id', $employee->manager_id ?? '') == $emp->employee_id ? 'selected' : '' }}>
+                                            {{ $emp->full_name }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-md-3">
                             <label>Department ID</label>
-                            <input type="number" name="department_id" class="form-control"
-                                   value="{{ old('department_id', $employee->department_id ?? '') }}">
+
+                            <select name="department_id" id="department_id" class="form-control">
+                                <option value="">-- Select Department --</option>
+                                @foreach($departments as $dept)
+                                    <option value="{{ $dept->department_id }}"
+                                        {{ old('department_id', $employee->department_id ?? '') == $dept->department_id ? 'selected' : '' }}>
+                                        {{ $dept->department_name }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+
                         </div>
                     </div>
 
@@ -89,7 +123,7 @@
             </div>
         </div>
 
-        <!-- 🟢 Employee Data Table -->
+        <!--  Employee Data Table -->
         <div class="card shadow-sm">
             <div class="card-header bg-dark text-white">
                 <h5 class="mb-0">📋 Employee List</h5>
@@ -103,23 +137,38 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Department</th>
+                        <th>Jobs</th>
                         <th>Salary</th>
                         <th width="150">Action</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>John Doe</td>
-                        <td>john@mail.com</td>
-                        <td>IT</td>
-                        <td>50000</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning">Edit</button>
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </td>
-                    </tr>
+                    <tbody>
+                    @foreach($employees as $key => $emp)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td class="text-start">{{ $emp->full_name }}</td>
+                            <td class="text-start">{{ $emp->email }}</td>
+                            <td class="text-start">{{ $emp->department->department_name ?? 'N/A' }}</td>
+                            <td class="text-start"> {{ $emp->job_id  }}</td>
+                            <td class="text-end">{{ $emp->salary }}</td>
+                            <td>
+                                <a href="{{ route('employee.emp-edit', $emp->employee_id) }}"
+                                   class="btn btn-sm btn-warning">Edit</a>
+
+                                <form action="{{ route('employee.emp-delete', $emp->employee_id) }}" method="POST"
+                                      style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Are you sure?')">Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
                     </tbody>
 
                 </table>

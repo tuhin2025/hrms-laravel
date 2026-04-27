@@ -44,14 +44,12 @@ Route::prefix('employee')->name('employee.')->group(function () {
     Route::get('/', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
 
 //   Route::get('/dept-list', [OraclehrController::class, 'index'])->name('emp-list');
-//
-    Route::post('/dept-store', [EmployeeController::class, 'empStore'])->name('emp-store');
-//
-//    Route::get('/dept-edit/{id}', [OraclehrController::class, 'deptEdit'])->name('dept-edit');
-//
-//    // ✅ FIXED (POST → PUT)
+
+    Route::post('/emp-store', [EmployeeController::class, 'empStore'])->name('emp-store');
+
+    Route::get('/emp-edit/{id}', [EmployeeController::class, 'empEdit'])->name('emp-edit');
+
     Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');
-//
-//    // ✅ FIXED (GET → DELETE)
-//    Route::delete('/dept-delete/{id}', [OraclehrController::class, 'deptDelete'])->name('dept-delete');
+
+    Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');
 });
