@@ -1,9 +1,10 @@
+
+
 @extends('layouts.app')
 
 @section('content')
 
-    <div class="container mt-4">
-
+    <div class="container">
         <!-- 🔵 Employee Info Form -->
         <div class="card mb-4 shadow-sm">
             <div class="card-header text-white d-flex justify-content-between align-items-center"
@@ -374,3 +375,10 @@
 
 @endpush
 
+@section('breadcrumb')
+    <x-breadcrumb :items="[
+    ['label' => 'Home', 'url' => url('/hr')],
+    ['label' => 'Employees', 'url' => route('employee.index')],
+    ['label' => isset($employee) ? 'Edit Employee' : 'Add Employee']
+]" />
+@endsection

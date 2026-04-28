@@ -15,8 +15,9 @@
             width: 230px;
             height: 100vh;
             position: fixed;
+            left: 0;
+            top: 0;
             background: #2c3e50;
-            color: white;
         }
 
         .sidebar a {
@@ -33,23 +34,37 @@
 
         .main {
             margin-left: 230px;
+            padding-top: 40px; /* header height */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
+            position: fixed;
+            top: 0;
+            left: 230px; /* sidebar width */
+            right: 0;
+            height: 45px;
+            z-index: 1000;
             background: #f8f9fa;
-            padding: 10px 20px;
             border-bottom: 1px solid #ddd;
         }
 
         .content {
             padding: 20px;
         }
-
         .footer {
             background: #f8f9fa;
             text-align: center;
             padding: 10px;
             border-top: 1px solid #ddd;
+
+            position: fixed;
+            bottom: 0;
+            left: 230px; /* sidebar width */
+            right: 0;
+            z-index: 999;
         }
 
         html, body {
@@ -64,15 +79,14 @@
         }
 
         .content-wrapper {
-            flex: 1; /* pushes footer down */
+            flex: 1;
             padding: 20px;
         }
 
-        .footer {
-            background: #f8f9fa;
-            text-align: center;
-            padding: 10px;
-            border-top: 1px solid #ddd;
+        .content-wrapper {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -82,11 +96,16 @@
 
 <div class="main">
 
+
     @include('partials.header')
+    <div class="bg-light px-3 py-2 border-bottom">
+        @yield('breadcrumb')
+    </div>
 
     <div class="content-wrapper">
         @yield('content')
     </div>
+
 
     @include('partials.footer')
 
@@ -94,6 +113,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 @stack('scripts')
 @if(session('success'))

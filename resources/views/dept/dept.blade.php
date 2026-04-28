@@ -169,6 +169,15 @@
 
 @endsection
 
+@section('breadcrumb')
+    <x-breadcrumb :items="[
+    ['label' => 'Home', 'url' => url('/hr')],
+    ['label' => 'Departments', 'url' => route('hr.dept-list')],
+    ['label' => isset($department) ? 'Edit Department' : 'Add Department']
+
+]" />
+@endsection
+
 <script>
     function confirmDelete(id) {
         Swal.fire({
