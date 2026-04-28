@@ -22,7 +22,7 @@ class EmployeeController extends BaseController
 
     public function index()
     {
-        $employees = \App\Models\Employee::with('department' ) ->get();
+        $employees = \App\Models\Employee::with('department')->get();
         $job = job::all();
         $departments = Department::all();
 
@@ -35,6 +35,20 @@ class EmployeeController extends BaseController
     {
         try {
 
+            $request->validate(
+                [
+                    'first_name' => 'required',
+                    'last_name' => 'required',
+                    'email' => 'required|email',
+                ],
+                [
+                    'first_name.required' => 'First name Required',
+                    'last_name.required' => 'Last name Required',
+                    'email.required' => 'Email Required',
+                    'email.email' => 'Valid email Required (example@gmail.com)',
+                ]
+            );
+//            dd($request->job_id);
             Employee::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -63,13 +77,46 @@ class EmployeeController extends BaseController
         $employee = \App\Models\Employee::with('department')->find($id);
         $departments = Department::all();
         $employees = Employee::all();
-
-        return view('employee.employee', compact('employee', 'departments', 'employees'));
+        $job = job::all();
+        return view('employee.employee', compact('employee', 'departments', 'employees', 'job'));
     }
 
     public function empUpdate(Request $request, $id)
     {
+        $request->validate(
+            [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email',
+            ],
+            [
+                'first_name.required' => 'First name Required',
+                'last_name.required' => 'Last name Required',
+                'email.required' => 'Email Required',
+                'email.email' => 'Valid email Required (example@gmail.com)',
+            ]
+        );
+        $employee = Employee::findOrFail($id);
+        $employee->Update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'hire_date' => $request->hire_date,
+            'job_id' => $request->job_id,
+            'salary' => $request->salary,
+            'manager_id' => $request->manager_id,
+            'department_id' => $request->department_id
+        ]);
+        return redirect()
+            ->route('employee.index')
+            ->with('success', 'Employee Updated Successfully');
+    }
 
-
+    public function empDelete($id)
+    {
+//        dd('fghj');
+        Employee::find($id)->delete();
+        return redirect()->back()->with('success', 'Deleted');
     }
 }

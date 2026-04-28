@@ -16,4 +16,8 @@ class job extends Model
         'max_salary'
 
     ];
+
+    protected $casts = [
+        'job_id' => 'string',
+    ];
 }

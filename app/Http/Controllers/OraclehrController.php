@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use app\models\job;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use App\Models\Department;
+//use App\Models\Department;
+//use App\Models\Employee;
+
 use Illuminate\Support\Facades\DB;
 
 class OraclehrController extends BaseController
@@ -18,8 +21,10 @@ class OraclehrController extends BaseController
     public function index()
     {
         $departmentCount = \App\Models\Department::count();
+        $employeeCount = \App\Models\Employee::count();
+        $jobCount = \App\Models\job::count();
 
-        return view('hr.dashboard', compact('departmentCount'));
+        return view('hr.dashboard', compact('departmentCount', 'employeeCount','jobCount'));
     }
 
     public function deptList()
