@@ -19,7 +19,8 @@ class Employee extends Model
         'job_id',
         'salary',
         'department_id',
-        'manager_id'
+        'manager_id',
+        'active_status',
     ];
 
 

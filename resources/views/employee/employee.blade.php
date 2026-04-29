@@ -1,5 +1,3 @@
-
-
 @extends('layouts.app')
 
 @section('content')
@@ -39,11 +37,11 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
 
-                            <label>First Name</label>
+                            <label>First Name :</label>
                             @error('first_name')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
-                            <input type="text" name="first_name" id="first_name" class="form-control"
+                            <input type="text" name="first_name" id="first_name" class="form-control form-control-sm"
                                    value="{{ old('first_name', $employee->first_name ?? '') }}">
 
                         </div>
@@ -53,13 +51,13 @@
                             @error('last_name')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
-                            <input type="text" name="last_name" id="last_name" class="form-control"
+                            <input type="text" name="last_name" id="last_name" class="form-control form-control-sm"
                                    value="{{ old('last_name', $employee->last_name ?? '') }}">
                         </div>
 
                         <div class="col-md-4">
                             <label>Email</label>
-                            <input type="email" name="email" id="email" class="form-control"
+                            <input type="email" name="email" id="email" class="form-control form-control-sm"
                                    value="{{ old('email', $employee->email ?? '') }}">
                         </div>
                     </div>
@@ -67,19 +65,19 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label>Phone</label>
-                            <input type="text" name="phone_number" id="phone_number" class="form-control"
+                            <input type="text" name="phone_number" id="phone_number"
+                                   class="form-control form-control-sm"
                                    value="{{ old('phone_number', $employee->phone_number ?? '') }}">
                         </div>
 
                         <div class="col-md-4">
                             <label>Hire Date</label>
-                            <input type="date" name="hire_date" id="hire_date" class="form-control"
+                            <input type="date" name="hire_date" id="hire_date" class="form-control form-control-sm"
                                    value="{{ old('hire_date', $employee->hire_date ?? '') }}">
                         </div>
                         <div class="col-md-4">
                             <label>Job ID</label>
-
-                            <select name="job_id" id="job_id" class="form-control">
+                            <select name="job_id" id="job_id" class="form-control form-control-sm">
                                 <option value="">Select One</option>
                                 @foreach($job as $jobs)
                                     <option value="{{ $jobs->job_id }}"
@@ -88,8 +86,6 @@
                                     </option>
                                 @endforeach
                             </select>
-
-
                         </div>
 
                     </div>
@@ -97,13 +93,13 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label>Salary</label>
-                            <input type="number" name="salary" id='salary' class="form-control"
+                            <input type="number" name="salary" id='salary' class="form-control form-control-sm"
                                    value="{{ old('salary', $employee->salary ?? '') }}">
                         </div>
 
                         <div class="col-md-4">
                             <label>Manager ID</label>
-                            <select name="manager_id" id="manager_id" class="form-control">
+                            <select name="manager_id" id="manager_id" class="form-control form-control-sm">
                                 <option value="">Select One</option>
 
                                 @foreach($employees as $emp)
@@ -120,7 +116,7 @@
                         <div class="col-md-4">
                             <label>Department ID</label>
 
-                            <select name="department_id" id="department_id" class="form-control">
+                            <select name="department_id" id="department_id" class="form-control form-control-sm">
                                 <option value="">Select One</option>
                                 @foreach($departments as $dept)
                                     <option value="{{ $dept->department_id }}"
@@ -130,8 +126,14 @@
                                 @endforeach
 
                             </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label d-block">Active Y/N :</label>
 
+                            <input type="hidden" name="active_status" value="N">
 
+                            <input class="form-check-input" type="checkbox" name="active_status" id="active_status"
+                                   value="Y" {{ old('active_status', $employee->active_status ?? 'Y') == 'Y' ? 'checked' : '' }}>
                         </div>
                     </div>
 
@@ -162,6 +164,7 @@
                         <th>Department</th>
                         <th>Jobs</th>
                         <th>Salary</th>
+                        <th>Active Status</th>
                         <th width="150">Action</th>
                     </tr>
                     </thead>
@@ -176,6 +179,12 @@
                             <td class="text-start">{{ $emp->department->department_name ?? 'N/A' }}</td>
                             <td class="text-start">{{ $emp->job->job_title }}</td>
                             <td class="text-end">{{ $emp->salary }}</td>
+                            <td>@if ($emp->active_status =='Y')
+                                    <span class="badge bg-success"> Active</span>
+                                @else
+                                    <span class="badge bg-danger"> Inctive</span>
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{ route('employee.emp-edit', $emp->employee_id) }}"
                                    class="btn btn-sm btn-warning">Edit</a>
@@ -217,6 +226,8 @@
             let $salaryInput = $('#salary');
             let $jobSelect = $('#job_id');
             let $hireDate = $('#hire_date');
+            // let $activeYn = $('#active_status')
+            //  console.log('mmm',$activeYn);
 
             if (!$salaryInput.length || !$jobSelect.length || !$hireDate.length) {
                 console.log("Elements not found");
@@ -290,9 +301,9 @@
 
 
                 let validations = [
-                    { field: firstName, message: "First name required" },
-                    { field: lastName, message: "Last name required" },
-                    { field: email, message: "Email required" }
+                    {field: firstName, message: "First name required"},
+                    {field: lastName, message: "Last name required"},
+                    {field: email, message: "Email required"}
                 ];
 
                 for (let v of validations) {
@@ -380,5 +391,5 @@
     ['label' => 'Home', 'url' => url('/hr')],
     ['label' => 'Employees', 'url' => route('employee.index')],
     ['label' => isset($employee) ? 'Edit Employee' : 'Add Employee']
-]" />
+]"/>
 @endsection

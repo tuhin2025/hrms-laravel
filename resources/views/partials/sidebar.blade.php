@@ -7,6 +7,7 @@
     <a href="{{ url('/hr') }}">🏠 Dashboard</a>
     <a href="{{ route('employee.index') }}">👨‍💼 Employees</a>
     <a href="{{ route('hr.dept-list') }}">🏢 Departments</a>
+    <a href="{{ route('attendance.index') }}">🏢 Attendance</a>
 {{--    <a href="{{ url('/hr/deptsdsdsdsd') }}">🏢 Departments</a>--}}
     <a href="{{ url('/hr/job') }}">💼 Jobs</a>
 </div>

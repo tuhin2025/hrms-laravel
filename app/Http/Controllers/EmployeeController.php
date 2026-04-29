@@ -58,7 +58,8 @@ class EmployeeController extends BaseController
                 'job_id' => $request->job_id,
                 'salary' => $request->salary,
                 'manager_id' => $request->manager_id,
-                'department_id' => $request->department_id
+                'department_id' => $request->department_id,
+                'active_status' => $request->active_status
             ]);
 
             return redirect()->back()->with('success', 'Employee Added Successfully');
@@ -106,7 +107,8 @@ class EmployeeController extends BaseController
             'job_id' => $request->job_id,
             'salary' => $request->salary,
             'manager_id' => $request->manager_id,
-            'department_id' => $request->department_id
+            'department_id' => $request->department_id,
+            'active_status' => $request->active_status
         ]);
         return redirect()
             ->route('employee.index')
