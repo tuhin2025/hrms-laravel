@@ -32,7 +32,7 @@ class Employee extends Model
 
     public function job()
     {
-        return $this->belongsTo(\App\Models\Job::class, 'job_id', 'job_id');
+        return $this->belongsTo(\App\Models\job::class, 'job_id', 'job_id');
     }
 
 
