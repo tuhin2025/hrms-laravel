@@ -22,6 +22,20 @@ use App\Http\Controllers\OraclehrController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeAttendance;
 
+use App\Http\Controllers\AuthController;
+
+Route::prefix('auth')->name('auth.')->group(function () {
+
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+
 Route::prefix('hr')->name('hr.')->group(function () {
 
     Route::get('/', [OraclehrController::class, 'index'])->name('index');
@@ -45,7 +59,7 @@ Route::prefix('employee')->name('employee.')->group(function () {
 
 Route::prefix('attendance')->name('attendance.')->group(function () {
 
-    Route::get('/', [EmployeeAttendance::class,'index'])->name('index');
+    Route::get('/', [EmployeeAttendance::class, 'index'])->name('index');
     Route::post('/attn-store', [EmployeeAttendance::class, 'bulkStore'])->name('attn-store');
 //    Route::get('/emp-edit/{id}', [EmployeeController::class, 'empEdit'])->name('emp-edit');
 //    Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');

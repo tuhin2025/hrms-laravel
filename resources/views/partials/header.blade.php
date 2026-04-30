@@ -25,7 +25,8 @@
     <!-- CENTER: Slogan Carousel -->
     <div class="flex-grow-1 mx-3 d-none d-md-block">
 
-        <div id="headerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2500" data-bs-pause="hover">
+        <div id="headerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2500"
+             data-bs-pause="hover">
             <div class="carousel-inner text-center">
 
                 <div class="carousel-item active">
@@ -54,16 +55,13 @@
 
     <!-- RIGHT: optional -->
     <div>
-{{--        <span class="badge bg-success">Online</span>--}}
-        <span>
-{{--            <form method="POST" action="{{ route('logout') }}">--}}
-{{--                @csrf--}}
+        <form method="POST" action="{{ route('auth.logout') }}">
+            @csrf
 
-        <span onclick="this.closest('form').submit()" style="cursor:pointer;">
-        Logout
-        </span>
-{{--            </form>--}}
-        </span>
+            <button type="submit" class="btn btn-danger btn-sm">
+                Logout
+            </button>
+        </form>
     </div>
 
 </div>
