@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HRMS Register</title>
+    <title> Register</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,7 +11,7 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #198754, #0dcaf0);
+            /*background: linear-gradient(135deg, #198754, #0dcaf0);*/
             height: 100vh;
             display: flex;
             align-items: center;
@@ -24,7 +24,7 @@
             background: #fff;
             padding: 35px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .brand {
@@ -135,4 +135,6 @@
 </div>
 
 </body>
+
 </html>
+

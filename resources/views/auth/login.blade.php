@@ -2,30 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HRMS Login</title>
+    <title> Login</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="D:\hrms-laravel\rag-dolls-one-blue.jpg">
 
     <style>
         body {
-            background: linear-gradient(135deg, #0d6efd, #20c997);
+            background: url("{{ asset('rag-dolls-one-blue.jpg') }}") no-repeat center center fixed;
+            {{--background: url("{{ asset('business-meeting-about-employment.jpg') }}") no-repeat center center fixed;--}}
+            background-size: 100% 100%;
+            width: 100%;
             height: 100vh;
+            margin: 0;
+
             display: flex;
             align-items: center;
-            justify-content: center;
+
+            /* Left Side */
+            justify-content: flex-start;
+
+            padding-left: 80px;
         }
 
         .login-box {
-            width: 100%;
-            max-width: 420px;
-            background: #fff;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 420px;
+
+            background: rgb(17 35 40 / 28%);
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(13, 15, 14, 0.2);
         }
+
+
+        /*.login-box{*/
+        /*    width: 420px;*/
+        /*    padding: 35px;*/
+
+        /*    !* Move Left *!*/
+        /*    margin-left: 80px;*/
+
+        /*    background: rgba(255,255,255,0.20);*/
+        /*    backdrop-filter: blur(10px);*/
+
+        /*    border-radius: 20px;*/
+        /*    box-shadow: 0 8px 25px rgba(0,0,0,0.25);*/
+        /*}*/
 
         .brand {
             text-align: center;
@@ -46,12 +71,23 @@
             font-weight: 600;
         }
 
+        .text-muted {
+            color: #fff !important;
+        }
+
+        .brand h2 {
+            font-weight: bold;
+            color: #fff !important;
+        }
+
         .small-text {
             font-size: 13px;
             text-align: center;
             margin-top: 15px;
-            color: #777;
+            color: #ffffff;
         }
+
+
     </style>
 </head>
 
@@ -88,7 +124,7 @@
 
         <!-- Password -->
         <div class="mb-3">
-            <label class="form-label">Password</label>
+            <label class="form-label ">Password</label>
             <input type="password"
                    name="password"
                    class="form-control"
@@ -107,11 +143,11 @@
             Login
         </button>
         <!-- Register Link -->
-        <div class="text-center mt-3">
+        <div class="text-center  mt-3">
             <small class="text-muted">
-                Don’t have an account?
+                <span class="small-text">Don’t have an account?</span>
                 <a href="{{ route('auth.register') }}" class="text-decoration-none">
-                    Create Account
+                    <span class="small-text">Create Account</span>
                 </a>
             </small>
         </div>

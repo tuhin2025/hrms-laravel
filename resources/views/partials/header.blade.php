@@ -12,7 +12,7 @@
 {{--</div>--}}
 
 <div class="header mb-0 d-flex justify-content-between align-items-center px-3 shadow-sm"
-     style="height: 45px; background: #fff; position: fixed; top: 0; left: 230px; right: 0; z-index: 1000;">
+     style="height: 45px; background: #fff; position: fixed;  left: 230px; right: 0; z-index: 1000;">
 
     <!-- LEFT: Logo -->
     <div class="d-flex align-items-center gap-2">
