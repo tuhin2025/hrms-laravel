@@ -8,13 +8,12 @@
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="D:\hrms-laravel\rag-dolls-one-blue.jpg">
 
     <style>
         body {
             background: url("{{ asset('rag-dolls-one-blue.jpg') }}") no-repeat center center fixed;
             {{--background: url("{{ asset('business-meeting-about-employment.jpg') }}") no-repeat center center fixed;--}}
-            background-size: 100% 100%;
+                       background-size: 100% 100%;
             width: 100%;
             height: 100vh;
             margin: 0;
@@ -146,8 +145,8 @@
         <div class="text-center  mt-3">
             <small class="text-muted">
                 <span class="small-text">Don’t have an account?</span>
-                <a href="{{ route('auth.register') }}" class="text-decoration-none">
-                    <span class="small-text">Create Account</span>
+                <a href="{{ route('auth.register') }}" class="text-decoration-none small-text">
+                    <span id="createAccount" class="small-text">Create Account</span>
                 </a>
             </small>
         </div>
@@ -156,8 +155,6 @@
     <div class="small-text">
         © {{ date('Y') }} HRMS System
     </div>
-
 </div>
-
 </body>
 </html>

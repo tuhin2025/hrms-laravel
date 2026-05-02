@@ -77,7 +77,7 @@
     @endif
 
     <!-- Register Form -->
-    <form method="POST" action="{{ route('auth.register.submit') }}">
+    <form id='registerForm' method="POST" action="{{ route('auth.register.submit') }}" autocomplete="new-password">
         @csrf
 
         <!-- Username -->
@@ -87,6 +87,7 @@
                    name="username"
                    class="form-control"
                    placeholder="Enter username"
+                   autocomplete="new-password"
                    required>
         </div>
 
@@ -97,6 +98,7 @@
                    name="email"
                    class="form-control"
                    placeholder="Enter email"
+                   autocomplete="new-password"
                    required>
         </div>
 
@@ -107,6 +109,7 @@
                    name="password"
                    class="form-control"
                    placeholder="Enter password"
+                   autocomplete="new-password"
                    required>
         </div>
 
@@ -117,6 +120,7 @@
                    name="password_confirmation"
                    class="form-control"
                    placeholder="Confirm password"
+                   autocomplete="new-password"
                    required>
         </div>
 
@@ -134,7 +138,23 @@
 
 </div>
 
+{{--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>--}}
+
+{{--<script>--}}
+{{--    $(window).on('load', function () {--}}
+
+{{--        $('#registerForm').trigger('reset');--}}
+
+{{--        $('#registerForm input').each(function () {--}}
+{{--            $(this).val('');--}}
+{{--        });--}}
+
+{{--    });--}}
+{{--</script>--}}
+
+
 </body>
 
 </html>
+
 
