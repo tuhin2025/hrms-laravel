@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OraclehrController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeAttendance;
+use App\Http\Controllers\EmployeeLeave;
 
 use App\Http\Controllers\AuthController;
 
@@ -61,6 +62,26 @@ Route::prefix('attendance')->name('attendance.')->group(function () {
 
     Route::get('/', [EmployeeAttendance::class, 'index'])->name('index');
     Route::post('/attn-store', [EmployeeAttendance::class, 'bulkStore'])->name('attn-store');
+//    Route::get('/emp-edit/{id}', [EmployeeController::class, 'empEdit'])->name('emp-edit');
+//    Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');
+//    Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');
+});
+
+
+
+Route::prefix('attendance')->name('attendance.')->group(function () {
+
+    Route::get('/', [EmployeeAttendance::class, 'index'])->name('index');
+    Route::post('/attn-store', [EmployeeAttendance::class, 'bulkStore'])->name('attn-store');
+//    Route::get('/emp-edit/{id}', [EmployeeController::class, 'empEdit'])->name('emp-edit');
+//    Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');
+//    Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');
+});
+
+Route::prefix('leave')->name('leave.')->group(function () {
+
+    Route::get('/', [EmployeeLeave::class, 'index'])->name('index');
+//    Route::post('/attn-store', [EmployeeAttendance::class, 'bulkStore'])->name('attn-store');
 //    Route::get('/emp-edit/{id}', [EmployeeController::class, 'empEdit'])->name('emp-edit');
 //    Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');
 //    Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');

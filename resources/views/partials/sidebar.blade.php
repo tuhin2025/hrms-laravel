@@ -8,6 +8,8 @@
     <a href="{{ route('employee.index') }}">👨‍💼 Employees</a>
     <a href="{{ route('hr.dept-list') }}">🏢 Departments</a>
     <a href="{{ route('attendance.index') }}">🏢 Attendance</a>
+    <a href="{{ route('leave.index') }}">🏢 Leave Application</a>
+
 {{--    <a href="{{ url('/hr/deptsdsdsdsd') }}">🏢 Departments</a>--}}
     <a href="{{ url('/hr/job') }}">💼 Jobs</a>
 </div>
