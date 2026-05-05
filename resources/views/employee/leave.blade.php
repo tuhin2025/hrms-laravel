@@ -7,14 +7,30 @@
             Search Employee
         </legend>
 
-        {{--        <input type="text" class="form-control-sm ">--}}
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" id="seacrhEmp" class="btn btn-primary btn-sm">
-                Search
-            </button>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-4">
+                    <label for="srcDepartmentId"> Department</label>
+                    <input type="text" class="form-control form-control-sm" id="srcDepartmentId" name="srcDepartmentId" placeholder="Search By Department">
+                </div>
+                <div class="col-4 d-flex align-items-end">
+                    <button type="button" id="seacrhEmp" class="btn btn-primary btn-sm">
+                        Search
+                    </button>
+                </div>
+            </div>
+
+
+            {{--        <input type="text" class="form-control-sm ">--}}
+            {{--            <div class="d-grid gap-2 d-md-flex justify-content-md-end">--}}
+            {{--                <button type="button" id="seacrhEmp" class="btn btn-primary btn-sm">--}}
+            {{--                    Search--}}
+            {{--                </button>--}}
+            {{--            </div>--}}
         </div>
 
     </fieldset>
+
     <fieldset class="border p-2 rounded mt-0">
         <legend class="float-none w-auto px-2 fs-6">
             Leave Application
@@ -124,20 +140,23 @@
 
 
     {{-- Data list--}}
-    <div class="mt-4">
-        <div class="card">
-            <div class="card-header">
-                <strong>Leave Application List</strong>
-            </div>
 
+    <fieldset class="border p-2 rounded mt-2">
+        <legend class="float-none w-auto px-2 fs-6">
+            Leave Application List
+        </legend>
+
+        <div class="mt-4">
             <div class="card-body">
-                <table class="table table-bordered table-sm">
+                <table class="table table-bordered table-sm mb-4">
                     <thead class="table-light">
                     <tr>
                         <th>Employee</th>
                         <th>Leave Type</th>
-                        <th>From</th>
-                        <th>To</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Department</th>
+                        <th>Jobtitle</th>
                         <th>Total Days</th>
                         <th>Reason</th>
                     </tr>
@@ -148,7 +167,7 @@
                 </table>
             </div>
         </div>
-    </div>
+    </fieldset>
 
 @endsection
 
@@ -170,7 +189,7 @@
                         data.forEach(emp => {
                             rows += `
                                 <tr>
-                                    <td>${emp.first_name}</td>
+                                    <td>${emp.first_name} ${emp.last_name}</td>
                                     <td>${emp.department_name}</td>
                                     <td>${emp.job_title}</td>
                                     <td class="text-center">
@@ -331,13 +350,14 @@
                     data.forEach(item => {
                         rows += `
                         <tr>
-                            <td>${item.first_name ?? ''}</td>
-                            <td>${item.department_name ?? ''}</td>
-                            <td>${item.job_title ?? ''}</td>
+                            <td>${item.first_name ?? ''} ${item.last_name ?? ''}</td>
                             <td>${item.leave_type_name ?? ''}</td>
                             <td>${item.from_date ?? ''}</td>
                             <td>${item.to_date ?? ''}</td>
+                            <td>${item.department_name ?? ''}</td>
+                            <td>${item.job_title ?? ''}</td>
                             <td>${item.total_days ?? ''}</td>
+                            <td>${item.leave_reson ?? ''}</td>
                         </tr>`;
                     });
                     $('#leaveTable').html(rows);
@@ -354,8 +374,12 @@
         });
     </script>
 
-
-
-
-
 @endpush
+
+
+@section('breadcrumb')
+    <x-breadcrumb :items="[
+    ['label' => 'Home', 'url' => url('/hr')],
+    ['label' => 'leave', 'url' => route('leave.index')]
+]"/>
+@endsection
