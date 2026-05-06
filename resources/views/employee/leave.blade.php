@@ -84,6 +84,7 @@
                     <label class="col-form-label-sm" for="leaveEndDate">End Date</label>
                     <input type="date" class="form-control form-control-sm" id="leaveEndDate" name="leaveEndDate"
                            value="" required>
+{{--                    <input required="" type="text" autocomplete="off" onkeydown="return false" name="leaveEndDate" id="leaveEndDate" class="form-control form-control-sm datetimepicker-input" data-target="#leaveEndDate" data-toggle="datetimepicker" value="" data-predefined-date="" placeholder="DD-MM-YYYY">--}}
                 </div>
                 <div class="col-2">
                     <label class="col-form-label-sm" for="totalDays">Total Date</label>
@@ -232,12 +233,7 @@
                 bootstrap.Modal.getInstance(document.getElementById('employeeModal')).hide();
             });
 
-            // cd editor for textarea
-            ClassicEditor
-                .create(document.querySelector('#leaveReason'))
-                .catch(error => {
-                    console.error(error);
-                });
+
 
 
             // Start and end date open when Employee is select
@@ -282,63 +278,7 @@
                 }
             })
         });
-    </script>
 
-    {{--    save Leave application data--}}
-    <script>
-        $('#saveLeaveBtn').on('click', function () {
-
-            let data = {
-                employee_id: $('#employeeId').val(),
-                leave_type: $('#leaveType').val(),
-                from_date: $('#leaveStartDate').val(),
-                to_date: $('#leaveEndDate').val(),
-                total_days: $('#totalDays').val(),
-                leave_reson: $('#leaveReason').val(),
-            };
-            // console.log(data);
-            $.ajax({
-                url: "{{ route('leave.store') }}",
-                type: "POST",
-                data: data,
-
-                success: function (res) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Leave Saved Successfully!',
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                    loadLeaveList();
-                    // optional reset
-                    // $('#leaveForm')[0].reset();
-                    // $('#totalDays').val('');
-                },
-
-                error: function (xhr) {
-
-                    let message = "Something went wrong!";
-
-                    if (xhr.responseJSON?.message) {
-                        message = xhr.responseJSON.message;
-                    }
-
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: message
-                    });
-
-                    console.log(xhr.responseText);
-                }
-            });
-
-        });
-    </script>
-
-    {{--    View Leave application data--}}
-    <script>
         function loadLeaveList() {
             $.ajax({
                 url: "{{ route('leave.view-data') }}",
@@ -371,6 +311,164 @@
 
         $(document).ready(function () {
             loadLeaveList();
+        });
+
+
+        // cd editor for textarea
+        let leaveEditor;
+
+        ClassicEditor
+            .create(document.querySelector('#leaveReason'))
+            .then(editor => {
+                leaveEditor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+       /* function validateLeaveForm() {
+
+            let employee_id = $('#employeeId').val();
+            let leave_type = $('#leaveType').val();
+            let from_date = $('#leaveStartDate').val();
+            let to_date = $('#leaveEndDate').val();
+            let total_days = $('#totalDays').val();
+            let leave_reson = leaveEditor ? leaveEditor.getData() : '';
+
+            if (!employee_id) return false;
+            if (!leave_type) return false;
+            if (!from_date) return false;
+            if (!to_date) return false;
+            if (new Date(from_date) > new Date(to_date)) return false;
+            if (!total_days || total_days <= 0) return false;
+            if (!leave_reson || leave_reson.trim() === '') return false;
+
+            return true;
+        }
+        function toggleSaveButton() {
+            $('#saveLeaveBtn').prop('disabled', !validateLeaveForm());
+        }
+
+        $(document).ready(function () {
+
+            // initial state
+            toggleSaveButton();
+
+            $('#employeeId, #leaveType, #leaveStartDate, #leaveEndDate').on('change input', function () {
+                toggleSaveButton();
+            });
+
+            // CKEditor change detection
+            if (leaveEditor) {
+                leaveEditor.model.document.on('change:data', () => {
+                    toggleSaveButton();
+                });
+            }
+
+        }); */
+
+        $('#saveLeaveBtn').on('click', function () {
+
+            let employee_id = $('#employeeId').val();
+            let employee_name = $('#employeeName').val();
+            let leave_type = $('#leaveType').val();
+            let from_date = $('#leaveStartDate').val();
+            let to_date = $('#leaveEndDate').val();
+            let total_days = $('#totalDays').val();
+            let leave_reson = leaveEditor ? leaveEditor.getData() : '';
+
+            // ======================
+            // NULL VALIDATION
+            // ======================
+            if (!employee_id) {
+                return Swal.fire('Error', 'Please select employee', 'error');
+            }
+
+            if (!leave_type) {
+                return Swal.fire('Error', 'Please select leave type', 'error');
+            }
+
+            if (!from_date) {
+                return Swal.fire('Error', 'Please select start date', 'error');
+            }
+
+            if (!to_date) {
+                return Swal.fire('Error', 'Please select end date', 'error');
+            }
+
+            if (new Date(from_date) > new Date(to_date)) {
+                return Swal.fire('Error', 'End date must be greater than start date', 'error');
+            }
+
+            if (!total_days || total_days <= 0) {
+                return Swal.fire('Error', 'Invalid total days', 'error');
+            }
+
+            if (!leave_reson || leave_reson.trim() === '') {
+                return Swal.fire('Error', 'Please enter leave reason', 'error');
+            }
+
+            // ======================
+            // CONFIRMATION ALERT
+            // ======================
+            Swal.fire({
+                title: `Mr. ${employee_name}`,
+                text: `Do you want to submit?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    let data = {
+                        employee_id,
+                        leave_type,
+                        from_date,
+                        to_date,
+                        total_days,
+                        leave_reson
+                    };
+
+                    $.ajax({
+                        url: "{{ route('leave.store') }}",
+                        type: "POST",
+                        data: data,
+
+                        success: function (res) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Saved!',
+                                text: 'Leave submitted successfully',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            loadLeaveList();
+                        },
+
+                        error: function (xhr) {
+
+                            let message = "Something went wrong!";
+                            if (xhr.responseJSON?.message) {
+                                message = xhr.responseJSON.message;
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: message
+                            });
+
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+            });
+
         });
     </script>
 

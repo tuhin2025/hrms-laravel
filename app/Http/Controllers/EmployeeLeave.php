@@ -51,7 +51,7 @@ class EmployeeLeave extends Controller
             'status' => 'A'
         ]);
 
-//       dd($request);
+//       dd($request->leave_reson);
         return response()->json($request);
 
     }
