@@ -62,12 +62,12 @@ class EmployeeLeave extends Controller
             ->join('employees', 'emp_leave_applications.employee_id', '=', 'employees.employee_id')
             ->join('jobs', 'employees.job_id', '=', 'jobs.job_id')
             ->join('departments', 'employees.department_id', '=', 'departments.department_id')
-            ->join('l_leave_types', 'emp_leave_applications.leave_type', '=', 'l_leave_types.leave_type_id')
+            ->join('l_leave_type', 'emp_leave_applications.leave_type', '=', 'l_leave_type.leave_type_id')
             ->select('employees.first_name',
                 'employees.last_name',
                 'departments.department_name',
                 'jobs.job_title',
-                'l_leave_types.leave_type_name',
+                'l_leave_type.leave_type_name',
                 'emp_leave_applications.from_date',
                 'emp_leave_applications.to_date',
                 'emp_leave_applications.total_days'
