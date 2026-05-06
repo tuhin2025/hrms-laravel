@@ -11,7 +11,8 @@
             <div class="row">
                 <div class="col-4">
                     <label for="srcDepartmentId"> Department</label>
-                    <input type="text" class="form-control form-control-sm" id="srcDepartmentId" name="srcDepartmentId" placeholder="Search By Department">
+                    <input type="text" class="form-control form-control-sm" id="srcDepartmentId" name="srcDepartmentId"
+                           placeholder="Search By Department">
                 </div>
                 <div class="col-4 d-flex align-items-end">
                     <button type="button" id="seacrhEmp" class="btn btn-primary btn-sm">
@@ -30,87 +31,97 @@
         </div>
 
     </fieldset>
+    <div>
+        <form id="leaveForm" class="leave-form">
 
-    <fieldset class="border p-2 rounded mt-0">
-        <legend class="float-none w-auto px-2 fs-6">
-            Leave Application
-        </legend>
+            <fieldset class="border p-2 rounded mt-0">
+                <legend class="float-none w-auto px-2 fs-6">
+                    Leave Application
+                </legend>
 
-        <div class="container">
-            <div class="row mt-0">
-                <div class="col-4">
-                    <input type="text" class="form-control bg-light text-dark" id="employeeId" name="employeeId"
-                           value=""
-                           hidden=""
-                    >
-                    <label class="col-form-label-sm" for="employeeName"> Employee Name</label>
-                    <input type="text" class="form-control form-control-sm" id="employeeName" name="employeeName"
-                           value=""
-                           readonly>
-                </div>
-                <div class="col-4">
-                    <input type="text" class="form-control bg-light text-dark" id="departmentId" name="departmentId"
-                           value="" hidden="">
-                    <label class="col-form-label-sm" for="departmentName"> Department</label>
-                    <input type="text" class="form-control form-control-sm" id="departmentName" name="departmentName"
-                           value="" readonly>
-                </div>
-                <div class="col-4">
-                    <input type="text" class="form-control bg-light text-dark" id="jobId" name="jobId" value=""
-                           hidden="">
-                    <label class="col-form-label-sm" for="jobTitle"> Designation</label>
-                    <input type="text" class="form-control form-control-sm" id="jobTitle" name="jobTitle" value=""
-                           readonly>
-                </div>
-            </div>
+                <div class="container">
+                    <div class="row mt-0">
+                        <div class="col-4">
+                            <input type="text" class="form-control bg-light text-dark" id="employeeId" name="employeeId"
+                                   value=""
+                                   hidden=""
+                            >
+                            <label class="col-form-label-sm" for="employeeName"> Employee Name</label>
+                            <input type="text" class="form-control form-control-sm" id="employeeName"
+                                   name="employeeName"
+                                   value=""
+                                   readonly>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control bg-light text-dark" id="departmentId"
+                                   name="departmentId"
+                                   value="" hidden="">
+                            <label class="col-form-label-sm" for="departmentName"> Department</label>
+                            <input type="text" class="form-control form-control-sm" id="departmentName"
+                                   name="departmentName"
+                                   value="" readonly>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control bg-light text-dark" id="jobId" name="jobId" value=""
+                                   hidden="">
+                            <label class="col-form-label-sm" for="jobTitle"> Designation</label>
+                            <input type="text" class="form-control form-control-sm" id="jobTitle" name="jobTitle"
+                                   value=""
+                                   readonly>
+                        </div>
+                    </div>
 
-            <div class="row mt-0">
-                <div class="col-4">
-                    <label class="col-form-label-sm" for="leaveStartDate">Leave Type</label>
-                    <select class="form-control form-control-sm" name="leaveType" id="leaveType">
-                        <option value="">Select One</option>
-                        @foreach($leaveTypes as $leaveType)
-                            <option value="{{$leaveType->leave_type_id}}">{{$leaveType->leave_type_name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-3">
-                    <label class="col-form-label-sm" for="leaveStartDate">Start Date</label>
-                    <input type="date" class="form-control form-control-sm" id="leaveStartDate"
-                           name="leaveStartDate"
-                           value="" required>
-                </div>
-                <div class="col-3">
-                    <label class="col-form-label-sm" for="leaveEndDate">End Date</label>
-                    <input type="date" class="form-control form-control-sm" id="leaveEndDate" name="leaveEndDate"
-                           value="" required>
-{{--                    <input required="" type="text" autocomplete="off" onkeydown="return false" name="leaveEndDate" id="leaveEndDate" class="form-control form-control-sm datetimepicker-input" data-target="#leaveEndDate" data-toggle="datetimepicker" value="" data-predefined-date="" placeholder="DD-MM-YYYY">--}}
-                </div>
-                <div class="col-2">
-                    <label class="col-form-label-sm" for="totalDays">Total Date</label>
-                    <input type="text" class="form-control form-control-sm" id="totalDays" name="totalDays"
-                           value="" disabled>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-form-label-sm">
-                    <label for="leaveReason" class="form-label">Reason</label>
-                    <textarea
-                        class="form-control"
-                        id="leaveReason"
-                        name="leaveReason"
-                        rows="5"
-                        placeholder="Write your reason here..."></textarea>
-                </div>
-            </div>
+                    <div class="row mt-0">
+                        <div class="col-4">
+                            <label class="col-form-label-sm" for="leaveStartDate">Leave Type</label>
+                            <select class="form-control form-control-sm" name="leaveType" id="leaveType">
+                                <option value="">Select One</option>
+                                @foreach($leaveTypes as $leaveType)
+                                    <option
+                                        value="{{$leaveType->leave_type_id}}">{{$leaveType->leave_type_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label class="col-form-label-sm" for="leaveStartDate">Start Date</label>
+                            <input type="date" class="form-control form-control-sm" id="leaveStartDate"
+                                   name="leaveStartDate"
+                                   value="" required>
+                        </div>
+                        <div class="col-3">
+                            <label class="col-form-label-sm" for="leaveEndDate">End Date</label>
+                            <input type="date" class="form-control form-control-sm" id="leaveEndDate"
+                                   name="leaveEndDate"
+                                   value="" required>
+                            {{--                    <input required="" type="text" autocomplete="off" onkeydown="return false" name="leaveEndDate" id="leaveEndDate" class="form-control form-control-sm datetimepicker-input" data-target="#leaveEndDate" data-toggle="datetimepicker" value="" data-predefined-date="" placeholder="DD-MM-YYYY">--}}
+                        </div>
+                        <div class="col-2">
+                            <label class="col-form-label-sm" for="totalDays">Total Date</label>
+                            <input type="text" class="form-control form-control-sm" id="totalDays" name="totalDays"
+                                   value="" disabled>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-form-label-sm">
+                            <label for="leaveReason" class="form-label">Reason</label>
+                            <textarea
+                                class="form-control"
+                                id="leaveReason"
+                                name="leaveReason"
+                                rows="5"
+                                placeholder="Write your reason here..."></textarea>
+                        </div>
+                    </div>
 
-            <div class="d-grid justify-content-md-end mt-2 large">
-                <button type="button" id="saveLeaveBtn" class="btn btn-success btn-sm" style="width: 200px;"> Save
-                </button>
-            </div>
-        </div>
-    </fieldset>
-
+                    <div class="d-grid justify-content-md-end mt-2 large">
+                        <button type="button" id="saveLeaveBtn" class="btn btn-success btn-sm" style="width: 200px;">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
     {{-- -----Seach List Modal------}}
     <div class="modal fade" id="employeeModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -146,6 +157,16 @@
         <legend class="float-none w-auto px-2 fs-6">
             Leave Application List
         </legend>
+        {{--        Serach All Fields--}}
+        <div class="mb-3 d-flex justify-content-end">
+            <label for="leaveSearch" class="col-sm-2 col-form-label text-end">
+                Search :
+            </label>
+            <div class="col-3">
+                <input type="text" id="leaveSearch" class="form-control form-control-sm"
+                       placeholder="Search employee, leave type, department, date, reason...">
+            </div>
+        </div>
 
         <div class="mt-4">
             <div class="card-body">
@@ -232,8 +253,6 @@
 
                 bootstrap.Modal.getInstance(document.getElementById('employeeModal')).hide();
             });
-
-
 
 
             // Start and end date open when Employee is select
@@ -326,46 +345,46 @@
                 console.error(error);
             });
 
-       /* function validateLeaveForm() {
+        /* function validateLeaveForm() {
 
-            let employee_id = $('#employeeId').val();
-            let leave_type = $('#leaveType').val();
-            let from_date = $('#leaveStartDate').val();
-            let to_date = $('#leaveEndDate').val();
-            let total_days = $('#totalDays').val();
-            let leave_reson = leaveEditor ? leaveEditor.getData() : '';
+             let employee_id = $('#employeeId').val();
+             let leave_type = $('#leaveType').val();
+             let from_date = $('#leaveStartDate').val();
+             let to_date = $('#leaveEndDate').val();
+             let total_days = $('#totalDays').val();
+             let leave_reson = leaveEditor ? leaveEditor.getData() : '';
 
-            if (!employee_id) return false;
-            if (!leave_type) return false;
-            if (!from_date) return false;
-            if (!to_date) return false;
-            if (new Date(from_date) > new Date(to_date)) return false;
-            if (!total_days || total_days <= 0) return false;
-            if (!leave_reson || leave_reson.trim() === '') return false;
+             if (!employee_id) return false;
+             if (!leave_type) return false;
+             if (!from_date) return false;
+             if (!to_date) return false;
+             if (new Date(from_date) > new Date(to_date)) return false;
+             if (!total_days || total_days <= 0) return false;
+             if (!leave_reson || leave_reson.trim() === '') return false;
 
-            return true;
-        }
-        function toggleSaveButton() {
-            $('#saveLeaveBtn').prop('disabled', !validateLeaveForm());
-        }
+             return true;
+         }
+         function toggleSaveButton() {
+             $('#saveLeaveBtn').prop('disabled', !validateLeaveForm());
+         }
 
-        $(document).ready(function () {
+         $(document).ready(function () {
 
-            // initial state
-            toggleSaveButton();
+             // initial state
+             toggleSaveButton();
 
-            $('#employeeId, #leaveType, #leaveStartDate, #leaveEndDate').on('change input', function () {
-                toggleSaveButton();
-            });
+             $('#employeeId, #leaveType, #leaveStartDate, #leaveEndDate').on('change input', function () {
+                 toggleSaveButton();
+             });
 
-            // CKEditor change detection
-            if (leaveEditor) {
-                leaveEditor.model.document.on('change:data', () => {
-                    toggleSaveButton();
-                });
-            }
+             // CKEditor change detection
+             if (leaveEditor) {
+                 leaveEditor.model.document.on('change:data', () => {
+                     toggleSaveButton();
+                 });
+             }
 
-        }); */
+         }); */
 
         $('#saveLeaveBtn').on('click', function () {
 
@@ -448,6 +467,10 @@
                             });
 
                             loadLeaveList();
+
+                            $('#leaveForm')[0].reset();
+                            leaveEditor.setData('');
+                            $('#leaveStartDate, #leaveEndDate').prop('disabled', true);
                         },
 
                         error: function (xhr) {
@@ -467,6 +490,20 @@
                         }
                     });
                 }
+            });
+
+        });
+
+        $('#leaveSearch').on('keyup', function () {
+
+            let value = $(this).val().toLowerCase();
+
+            $('#leaveTable tr').filter(function () {
+
+                $(this).toggle(
+                    $(this).text().toLowerCase().indexOf(value) > -1
+                );
+
             });
 
         });
