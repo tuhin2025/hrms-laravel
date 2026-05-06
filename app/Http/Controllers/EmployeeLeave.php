@@ -70,7 +70,8 @@ class EmployeeLeave extends Controller
                 'l_leave_type.leave_type_name',
                 'emp_leave_applications.from_date',
                 'emp_leave_applications.to_date',
-                'emp_leave_applications.total_days'
+                'emp_leave_applications.total_days',
+                'emp_leave_applications.leave_reson'
             )
             ->orderBy('emp_leave_applications.app_id', 'DESC')
             ->get();
