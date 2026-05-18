@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExternalApiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,7 +25,6 @@ use App\Http\Controllers\EmployeeAttendance;
 use App\Http\Controllers\EmployeeLeave;
 
 use App\Http\Controllers\AuthController;
-
 Route::prefix('auth')->name('auth.')->group(function () {
 
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -87,4 +87,11 @@ Route::prefix('leave')->name('leave.')->group(function () {
 //    Route::get('/emp-edit/{id}', [EmployeeController::class, 'empEdit'])->name('emp-edit');
 //    Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');
 //    Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');
+});
+
+Route::prefix('external-api')->name('external.')->group(function () {
+    Route::get('/users', [ExternalApiController::class, 'getUsers'])->name('users');
+
+
+
 });
