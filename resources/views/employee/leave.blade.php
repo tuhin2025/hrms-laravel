@@ -29,7 +29,6 @@
             {{--                </button>--}}
             {{--            </div>--}}
         </div>
-
     </fieldset>
     <div>
         <form id="leaveForm" class="leave-form">

@@ -54,14 +54,64 @@
     </div>
 
     <!-- RIGHT: optional -->
-    <div>
-        <form method="POST" action="{{ route('auth.logout') }}">
-            @csrf
+    {{--    <div>--}}
+    {{--        <form method="POST" action="{{ route('auth.logout') }}">--}}
+    {{--            @csrf--}}
 
-            <button type="submit" class="btn btn-danger btn-sm">
-                Logout
-            </button>
-        </form>
-    </div>
+    {{--            <button type="submit" class="btn btn-danger btn-sm">--}}
+    {{--                Logout--}}
+    {{--            </button>--}}
+    {{--        </form>--}}
+    {{--    </div>--}}
+
+    @if(Auth::check())
+        <div class="d-flex align-items-center gap-2">
+
+            <div class="text-end">
+                <small class="text-muted">
+                    {{ ucwords(Auth::user()->username) }}
+                </small>
+
+            </div>
+
+            <div class="dropdown">
+
+                <a href="#" class="d-flex align-items-center text-decoration-none"
+                   data-bs-toggle="dropdown">
+
+                    <img src="{{ asset('image/' . (Auth::user()->emp_image ?? 'tuhin.png')) }}"
+                         class="rounded-circle"
+                         width="30">
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+
+                    {{--                <li>--}}
+                    {{--                    <a class="dropdown-item" href="#">--}}
+                    {{--                        Profile--}}
+                    {{--                    </a>--}}
+                    {{--                </li>--}}
+
+                    {{--                <li>--}}
+                    {{--                    <a class="dropdown-item" href="#">--}}
+                    {{--                        Settings--}}
+                    {{--                    </a>--}}
+                    {{--                </li>--}}
+
+                    {{--                <li><hr class="dropdown-divider"></li>--}}
+
+                    <li>
+                        <form action="{{ route('auth.logout') }}" method="POST">
+                            @csrf
+
+                            <button class="dropdown-item text-danger">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    @endif
 
 </div>

@@ -4,49 +4,47 @@
 
     <div class="container">
         <!-- 🔵 Employee Info Form -->
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header text-white d-flex justify-content-between align-items-center"
-                 style="background: linear-gradient(135deg, #4e73df, #1cc88a); border-radius: 8px 8px 0 0;">
 
-                <h5 class="mb-0 d-flex align-items-center gap-2">
-                    <span style="font-size: 18px;">
-                        {{ isset($employee) ? '✏️' : '➕' }}
-                    </span>
-                    <span>
-                        {{ isset($employee) ? 'Edit Employee' : 'Add Employee' }}
-                    </span>
-                </h5>
+        <fieldset class="border p-2 rounded mb-1">
+            <legend class="float-none w-auto px-2 fs-6">
+                {{ isset($employee) ? 'Edit Employee' : 'Add Employee' }}
+            </legend>
+            {{--                <div class="card-header text-white d-flex justify-content-between align-items-center"--}}
+            {{--                     style="background: linear-gradient(135deg, #4e73df, #1cc88a); border-radius: 8px 8px 0 0;">--}}
 
-                <span class="badge bg-light text-dark px-3 py-2">
-                    {{ isset($employee) ? 'Edit Mode' : 'New Entry' }}
-                </span>
+            {{--                    <h5 class="mb-0 d-flex align-items-center gap-2">--}}
+            {{--                        <span>--}}
+            {{--                        {{ isset($employee) ? 'Edit Employee' : 'Add Employee' }}--}}
+            {{--                        </span>--}}
+            {{--                    </h5>--}}
 
-            </div>
-
-
+            {{--                    <span class="badge bg-light text-dark px-3 py-2">--}}
+            {{--                    {{ isset($employee) ? 'Edit Mode' : 'New Entry' }}--}}
+            {{--                </span>--}}
+            {{--                </div>--}}
             <div class="card-body">
                 <form id="empForm" method="POST"
-                      action="{{ isset($employee) ? route('employee.emp-update',$employee->employee_id) : route('employee.emp-store') }}">
+                      action="{{ isset($employee) ? route('employee.emp-update',$employee->employee_id) : route('employee.emp-store') }} "
+                      enctype="multipart/form-data">
 
                     @csrf
                     @if(isset($employee))
                         @method('PUT')
                     @endif
 
-
-                    <div class="row mb-3">
-                        <div class="col-md-4">
+                    <div class="row mb-1">
+                        <div class="col-md-3">
 
                             <label>First Name :</label>
                             @error('first_name')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
-                            <input type="text" name="first_name" id="first_name" class="form-control form-control-sm"
+                            <input type="text" name="first_name" id="first_name"
+                                   class="form-control form-control-sm"
                                    value="{{ old('first_name', $employee->first_name ?? '') }}">
-
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>Last Name</label>
                             @error('last_name')
                             <span class="text-danger">{{ $message }}</span>
@@ -55,27 +53,27 @@
                                    value="{{ old('last_name', $employee->last_name ?? '') }}">
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>Email</label>
                             <input type="email" name="email" id="email" class="form-control form-control-sm"
                                    value="{{ old('email', $employee->email ?? '') }}">
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-4">
+                    <div class="row mb-1">
+                        <div class="col-md-3">
                             <label>Phone</label>
                             <input type="text" name="phone_number" id="phone_number"
                                    class="form-control form-control-sm"
                                    value="{{ old('phone_number', $employee->phone_number ?? '') }}">
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>Hire Date</label>
                             <input type="date" name="hire_date" id="hire_date" class="form-control form-control-sm"
                                    value="{{ old('hire_date', $employee->hire_date ?? '') }}">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>Job ID</label>
                             <select name="job_id" id="job_id" class="form-control form-control-sm">
                                 <option value="">Select One</option>
@@ -87,17 +85,16 @@
                                 @endforeach
                             </select>
                         </div>
-
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-4">
+                    <div class="row mb-1">
+                        <div class="col-md-3">
                             <label>Salary</label>
                             <input type="number" name="salary" id='salary' class="form-control form-control-sm"
                                    value="{{ old('salary', $employee->salary ?? '') }}">
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>Manager ID</label>
                             <select name="manager_id" id="manager_id" class="form-control form-control-sm">
                                 <option value="">Select One</option>
@@ -113,7 +110,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>Department ID</label>
 
                             <select name="department_id" id="department_id" class="form-control form-control-sm">
@@ -127,32 +124,48 @@
 
                             </select>
                         </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="col-md-4">
-                            <label class="form-label d-block">Active Y/N :</label>
-
                             <input type="hidden" name="active_status" value="N">
+                            <div class="d-flex align-items-center gap-2">
 
-                            <input class="form-check-input" type="checkbox" name="active_status" id="active_status"
-                                   value="Y" {{ old('active_status', $employee->active_status ?? 'Y') == 'Y' ? 'checked' : '' }}>
+                                <label class="form-label mb-0" for="active_status">
+                                    Active Y/N :
+                                </label>
+
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="active_status"
+                                       id="active_status"
+                                       value="Y"
+                                    {{ old('active_status', $employee->active_status ?? 'Y') == 'Y' ? 'checked' : '' }}>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="text-end">
+                                <button type="button" class="btn btn-success" id="submitBtn">
+                                    {{ isset($employee) ? 'Update' : 'Save' }}
+                                </button>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="text-end">
-                        <button type="button" class="btn btn-success" id="submitBtn">
-                            {{ isset($employee) ? 'Update' : 'Save' }}
-                        </button>
-                    </div>
-
                 </form>
             </div>
-        </div>
+        </fieldset>
+
 
         <!--  Employee Data Table -->
-        <div class="card shadow-sm">
-            <div class="card-header text-white d-flex justify-content-between align-items-center"
-                 style="background: linear-gradient(135deg, #4e73df, #1cc88a); border-radius: 8px 8px 0 0;">
-                <h5 class="mb-0">📋 Employee List</h5>
-            </div>
+        <fieldset class="border p-2 rounded mb-2">
+            <legend class="float-none w-auto px-2 fs-6">
+                Employee List
+            </legend>
+            {{--        <div class="card shadow-sm">--}}
+            {{--            <div class="card-header text-white d-flex justify-content-between align-items-center"--}}
+            {{--                 style="background: linear-gradient(135deg, #4e73df, #1cc88a); border-radius: 8px 8px 0 0;">--}}
+            {{--                <h5 class="mb-0">📋 Employee List</h5>--}}
+            {{--            </div>--}}
 
             <div class="card-body">
                 <table class="table table-bordered table-hover text-center">
@@ -206,188 +219,188 @@
 
                 </table>
             </div>
-        </div>
+            {{--            </div>--}}
+        </fieldset>
+        {{--        </div>--}}
 
-    </div>
+        @if(session('success'))
+            <script>
+                Swal.fire('Success!', '{{ session('success') }}', 'success');
+            </script>
+        @endif
 
-    @if(session('success'))
-        <script>
-            Swal.fire('Success!', '{{ session('success') }}', 'success');
-        </script>
-    @endif
-
-@endsection
-
-
-
-@push('scripts')
-    <script>
-        $(document).ready(function () {
-            let $salaryInput = $('#salary');
-            let $jobSelect = $('#job_id');
-            let $hireDate = $('#hire_date');
-            // let $activeYn = $('#active_status')
-            //  console.log('mmm',$activeYn);
-
-            if (!$salaryInput.length || !$jobSelect.length || !$hireDate.length) {
-                console.log("Elements not found");
-                return;
-            }
-            const salaryMap = {
-                "AD_PRES": 50000,
-                "IT_PROG": 30000,
-                "MK_OFF": 20000,
-                "DI_OFF": 15000
-            };
-
-            let isEdit = "{{ isset($employee) ? '1' : '0' }}";
-            let today = new Date().toISOString().split('T')[0];
+        @endsection
 
 
-            if (isEdit === "0" && $salaryInput.val() === "") {
-                $salaryInput.val(10000);
-                $hireDate.val(today);
-            }
-            $jobSelect.on('change', function () {
-                    let selectedJob = $(this).val();
-                    if (salaryMap[selectedJob]) {
-                        $salaryInput.val(salaryMap[selectedJob]);
-                    }
 
-                }
-            )
+        @push('scripts')
+            <script>
+                $(document).ready(function () {
+                    let $salaryInput = $('#salary');
+                    let $jobSelect = $('#job_id');
+                    let $hireDate = $('#hire_date');
+                    // let $activeYn = $('#active_status')
+                    //  console.log('mmm',$activeYn);
 
-
-        });
-
-    </script>
-
-    {{--    <script>--}}
-    {{--        document.addEventListener("DOMContentLoaded", function () {--}}
-    {{--            let salaryInput = document.getElementById('salary');--}}
-    {{--            let jobSelect = document.getElementById('job_id');--}}
-    {{--            if (!salaryInput || !jobSelect) return;--}}
-    {{--            const salaryMap = {--}}
-    {{--                "AD_PRES": 50000,--}}
-    {{--                "IT_PROG": 30000,--}}
-    {{--                "SA_REP": 20000,--}}
-    {{--                "HR_REP": 15000--}}
-    {{--            };--}}
-
-    {{--            let isEdit = "{{ isset($employee) ? '1' : '0' }}";--}}
-    {{--            if (isEdit === "0" && salaryInput.value === "") {--}}
-    {{--                salaryInput.value = 10000;--}}
-    {{--            }--}}
-    {{--            jobSelect.addEventListener('change', function () {--}}
-    {{--                let selectedJob = this.value;--}}
-
-    {{--                if (salaryMap[selectedJob]) {--}}
-    {{--                    salaryInput.value = salaryMap[selectedJob];--}}
-    {{--                }--}}
-    {{--            });--}}
-    {{--        });--}}
-
-    {{--    </script>--}}
-
-
-    <script>
-        $(document).ready(function () {
-
-            $('#submitBtn').on('click', function () {
-
-                let firstName = $('#first_name').val().trim();
-                let lastName = $('#last_name').val().trim();
-                let email = $('#email').val().trim();
-
-
-                let validations = [
-                    {field: firstName, message: "First name required"},
-                    {field: lastName, message: "Last name required"},
-                    {field: email, message: "Email required"}
-                ];
-
-                for (let v of validations) {
-                    if (v.field === "") {
-                        Swal.fire("Error", v.message, "error");
+                    if (!$salaryInput.length || !$jobSelect.length || !$hireDate.length) {
+                        console.log("Elements not found");
                         return;
                     }
-                }
+                    const salaryMap = {
+                        "AD_PRES": 50000,
+                        "IT_PROG": 30000,
+                        "MK_OFF": 20000,
+                        "DI_OFF": 15000
+                    };
 
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "Save?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#empForm').submit();
+                    let isEdit = "{{ isset($employee) ? '1' : '0' }}";
+                    let today = new Date().toISOString().split('T')[0];
+
+
+                    if (isEdit === "0" && $salaryInput.val() === "") {
+                        $salaryInput.val(10000);
+                        $hireDate.val(today);
                     }
+                    $jobSelect.on('change', function () {
+                            let selectedJob = $(this).val();
+                            if (salaryMap[selectedJob]) {
+                                $salaryInput.val(salaryMap[selectedJob]);
+                            }
+
+                        }
+                    )
+
+
                 });
 
-            });
+            </script>
 
-        });
-    </script>
+            {{--    <script>--}}
+            {{--        document.addEventListener("DOMContentLoaded", function () {--}}
+            {{--            let salaryInput = document.getElementById('salary');--}}
+            {{--            let jobSelect = document.getElementById('job_id');--}}
+            {{--            if (!salaryInput || !jobSelect) return;--}}
+            {{--            const salaryMap = {--}}
+            {{--                "AD_PRES": 50000,--}}
+            {{--                "IT_PROG": 30000,--}}
+            {{--                "SA_REP": 20000,--}}
+            {{--                "HR_REP": 15000--}}
+            {{--            };--}}
 
-    {{--    <script>--}}
-    {{--        document.addEventListener("DOMContentLoaded", function () {--}}
+            {{--            let isEdit = "{{ isset($employee) ? '1' : '0' }}";--}}
+            {{--            if (isEdit === "0" && salaryInput.value === "") {--}}
+            {{--                salaryInput.value = 10000;--}}
+            {{--            }--}}
+            {{--            jobSelect.addEventListener('change', function () {--}}
+            {{--                let selectedJob = this.value;--}}
 
-    {{--            let btn = document.getElementById('submitBtn');--}}
+            {{--                if (salaryMap[selectedJob]) {--}}
+            {{--                    salaryInput.value = salaryMap[selectedJob];--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        });--}}
 
-    {{--            if (btn) {--}}
+            {{--    </script>--}}
 
-    {{--                btn.addEventListener('click', function () {--}}
 
-    {{--                    Swal.fire({--}}
-    {{--                        title: 'Are you sure?',--}}
-    {{--                        text: "You want to save this data!",--}}
-    {{--                        icon: 'warning',--}}
-    {{--                        showCancelButton: true,--}}
-    {{--                        confirmButtonColor: '#28a745',--}}
-    {{--                        cancelButtonColor: '#d33',--}}
-    {{--                        confirmButtonText: 'Yes, Save it!'--}}
-    {{--                    }).then((result) => {--}}
-    {{--                        if (result.isConfirmed) {--}}
-    {{--                            document.getElementById('empForm').submit();--}}
-    {{--                        }--}}
-    {{--                    });--}}
+            <script>
+                $(document).ready(function () {
 
-    {{--                });--}}
+                    $('#submitBtn').on('click', function () {
 
-    {{--            }--}}
+                        let firstName = $('#first_name').val().trim();
+                        let lastName = $('#last_name').val().trim();
+                        let email = $('#email').val().trim();
 
-    {{--        });--}}
-    {{--    </script>--}}
 
-    <script>
-        function confirmDelete(button) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "This record will be deleted permanently!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
+                        let validations = [
+                            {field: firstName, message: "First name required"},
+                            {field: lastName, message: "Last name required"},
+                            {field: email, message: "Email required"}
+                        ];
 
-                if (result.isConfirmed) {
-                    button.closest('form').submit();
+                        for (let v of validations) {
+                            if (v.field === "") {
+                                Swal.fire("Error", v.message, "error");
+                                return;
+                            }
+                        }
+
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "Save?",
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#empForm').submit();
+                            }
+                        });
+
+                    });
+
+                });
+            </script>
+
+            {{--    <script>--}}
+            {{--        document.addEventListener("DOMContentLoaded", function () {--}}
+
+            {{--            let btn = document.getElementById('submitBtn');--}}
+
+            {{--            if (btn) {--}}
+
+            {{--                btn.addEventListener('click', function () {--}}
+
+            {{--                    Swal.fire({--}}
+            {{--                        title: 'Are you sure?',--}}
+            {{--                        text: "You want to save this data!",--}}
+            {{--                        icon: 'warning',--}}
+            {{--                        showCancelButton: true,--}}
+            {{--                        confirmButtonColor: '#28a745',--}}
+            {{--                        cancelButtonColor: '#d33',--}}
+            {{--                        confirmButtonText: 'Yes, Save it!'--}}
+            {{--                    }).then((result) => {--}}
+            {{--                        if (result.isConfirmed) {--}}
+            {{--                            document.getElementById('empForm').submit();--}}
+            {{--                        }--}}
+            {{--                    });--}}
+
+            {{--                });--}}
+
+            {{--            }--}}
+
+            {{--        });--}}
+            {{--    </script>--}}
+
+            <script>
+                function confirmDelete(button) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "This record will be deleted permanently!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+
+                        if (result.isConfirmed) {
+                            button.closest('form').submit();
+                        }
+                    });
                 }
-            });
-        }
-    </script>
+            </script>
 
-    {{--<script>--}}
-    {{--    let employees = @json($job);--}}
-    {{--    console.log(employees);--}}
-    {{--</script>--}}
+            {{--<script>--}}
+            {{--    let employees = @json($job);--}}
+            {{--    console.log(employees);--}}
+            {{--</script>--}}
 
-@endpush
+        @endpush
 
-@section('breadcrumb')
-    <x-breadcrumb :items="[
+        @section('breadcrumb')
+            <x-breadcrumb :items="[
     ['label' => 'Home', 'url' => url('/hr')],
     ['label' => 'Employees', 'url' => route('employee.index')],
     ['label' => isset($employee) ? 'Edit Employee' : 'Add Employee']

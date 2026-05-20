@@ -25,6 +25,7 @@ use App\Http\Controllers\EmployeeAttendance;
 use App\Http\Controllers\EmployeeLeave;
 
 use App\Http\Controllers\AuthController;
+
 Route::prefix('auth')->name('auth.')->group(function () {
 
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -37,7 +38,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
 });
 
 
-Route::prefix('hr')->name('hr.')->group(function () {
+Route::middleware(['auth'])->prefix('hr')->name('hr.')->group(function () {
 
     Route::get('/', [OraclehrController::class, 'index'])->name('index');
     Route::get('/dept-list', [OraclehrController::class, 'deptList'])->name('dept-list');
@@ -48,7 +49,7 @@ Route::prefix('hr')->name('hr.')->group(function () {
 });
 
 
-Route::prefix('employee')->name('employee.')->group(function () {
+Route::middleware(['auth'])->prefix('employee')->name('employee.')->group(function () {
 
     Route::get('/', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('index');
     Route::post('/emp-store', [EmployeeController::class, 'empStore'])->name('emp-store');
@@ -58,7 +59,7 @@ Route::prefix('employee')->name('employee.')->group(function () {
 });
 
 
-Route::prefix('attendance')->name('attendance.')->group(function () {
+Route::middleware(['auth'])->prefix('attendance')->name('attendance.')->group(function () {
 
     Route::get('/', [EmployeeAttendance::class, 'index'])->name('index');
     Route::post('/attn-store', [EmployeeAttendance::class, 'bulkStore'])->name('attn-store');
@@ -68,8 +69,7 @@ Route::prefix('attendance')->name('attendance.')->group(function () {
 });
 
 
-
-Route::prefix('attendance')->name('attendance.')->group(function () {
+Route::middleware(['auth'])->prefix('attendance')->name('attendance.')->group(function () {
 
     Route::get('/', [EmployeeAttendance::class, 'index'])->name('index');
     Route::post('/attn-store', [EmployeeAttendance::class, 'bulkStore'])->name('attn-store');
@@ -78,7 +78,7 @@ Route::prefix('attendance')->name('attendance.')->group(function () {
 //    Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');
 });
 
-Route::prefix('leave')->name('leave.')->group(function () {
+Route::middleware(['auth'])->prefix('leave')->name('leave.')->group(function () {
 
     Route::get('/', [EmployeeLeave::class, 'index'])->name('index');
     Route::get('/emp-search', [EmployeeLeave::class, 'searchEmp'])->name('emp-search');
@@ -91,7 +91,6 @@ Route::prefix('leave')->name('leave.')->group(function () {
 
 Route::prefix('external-api')->name('external.')->group(function () {
     Route::get('/users', [ExternalApiController::class, 'getUsers'])->name('users');
-
 
 
 });
