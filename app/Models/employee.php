@@ -21,6 +21,7 @@ class Employee extends Model
         'department_id',
         'manager_id',
         'active_status',
+        'emp_image'
     ];
 
 
