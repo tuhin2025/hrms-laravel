@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Register</title>
+    <title>Register</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,7 +11,6 @@
 
     <style>
         body {
-            /*background: linear-gradient(135deg, #198754, #0dcaf0);*/
             height: 100vh;
             display: flex;
             align-items: center;
@@ -69,68 +68,69 @@
         <p class="text-muted mb-0">Create New Account</p>
     </div>
 
-    <!-- Error Message -->
+    <!-- Error Alert (optional fallback) -->
     @if(session('error'))
         <div class="alert alert-danger py-2">
             {{ session('error') }}
         </div>
-    @endif
+@endif
 
-    <!-- Register Form -->
-    <form id='registerForm' method="POST" action="{{ route('auth.register.submit') }}" autocomplete="new-password">
+<!-- Register Form -->
+    <form id="registerForm" method="POST" action="{{ route('auth.register.submit') }}" autocomplete="off">
         @csrf
 
-        <!-- Username -->
         <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text"
-                   name="username"
-                   class="form-control"
-                   placeholder="Enter username"
-                   autocomplete="new-password"
-                   required>
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" autocomplete="off" required>
         </div>
 
-        <!-- Email -->
         <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email"
-                   name="email"
-                   class="form-control"
-                   placeholder="Enter email"
-                   autocomplete="new-password"
-                   required>
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" autocomplete="off" required>
         </div>
 
-        <!-- Password -->
         <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password"
-                   name="password"
-                   class="form-control"
-                   placeholder="Enter password"
-                   autocomplete="new-password"
-                   required>
+            <label>Password</label>
+
+            <div class="input-group">
+                <input type="password"
+                       id="password"
+                       name="password"
+                       class="form-control"
+                       autocomplete="new-password"
+                       required>
+
+                <button class="btn btn-outline-secondary" type="button"
+                        onclick="togglePassword('password', this)">
+                    👁️
+                </button>
+            </div>
         </div>
 
-        <!-- Confirm Password (Recommended) -->
+
         <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            <input type="password"
-                   name="password_confirmation"
-                   class="form-control"
-                   placeholder="Confirm password"
-                   autocomplete="new-password"
-                   required>
+            <label>Confirm Password</label>
+
+            <div class="input-group">
+                <input type="password"
+                       id="password_confirmation"
+                       name="password_confirmation"
+                       class="form-control"
+                       autocomplete="new-password"
+                       required>
+
+                <button class="btn btn-outline-secondary" type="button"
+                        onclick="togglePassword('password_confirmation', this)">
+                    👁️
+                </button>
+            </div>
         </div>
 
-        <!-- Button -->
         <button type="submit" class="btn btn-success w-100 btn-register">
             Register
         </button>
     </form>
 
-    <!-- Footer -->
     <div class="small-text">
         Already have an account?
         <a href="{{ route('auth.login') }}">Login here</a>
@@ -138,23 +138,56 @@
 
 </div>
 
-{{--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>--}}
+<!-- SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{--<script>--}}
-{{--    $(window).on('load', function () {--}}
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: "{{ session('success') }}",
+            timer: 2500,
+            showConfirmButton: false
+        });
+    </script>
+@endif
 
-{{--        $('#registerForm').trigger('reset');--}}
+@if(session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "{{ session('error') }}"
+        });
+    </script>
+@endif
 
-{{--        $('#registerForm input').each(function () {--}}
-{{--            $(this).val('');--}}
-{{--        });--}}
+<!-- VALIDATION ERROR -->
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Validation Error',
+            html: `{!! implode('<br>', $errors->all()) !!}`
+        });
+    </script>
+@endif
 
-{{--    });--}}
-{{--</script>--}}
 
+<script>
 
+    function togglePassword(id, btn) {
+        let input = document.getElementById(id);
+
+        if (input.type === "password") {
+            input.type = "text";
+            btn.innerHTML = "👁️";
+        } else {
+            input.type = "password";
+            btn.innerHTML = "👁️";
+        }
+    }
+</script>
 </body>
-
 </html>
-
-

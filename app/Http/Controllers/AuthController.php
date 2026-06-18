@@ -23,8 +23,8 @@ class AuthController extends Controller
     {
         $request->validate([
             'username' => 'required|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6'
+            'email' => 'required|email|unique:users,email'
+           // 'password' => 'required|min:6'
         ]);
 
         Users::create([
@@ -35,7 +35,8 @@ class AuthController extends Controller
             'created_at' => now()
         ]);
 
-        return redirect()->route('auth.login')->with('success', 'Registration successful');
+//        return redirect()->route('auth.login')->with('success', 'Registration successful');
+        return back()->with('success', 'Registration successful');
     }
 
     public function login(Request $request)
