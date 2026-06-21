@@ -1,7 +1,7 @@
-<h2>Welcome {{ $users->username }}</h2>
+<h2>Welcome {{ $user->username }}</h2>
 
-<p>Your registration has been completed successfully.</p>
+<p>Your account has been created successfully.</p>
 
-<p>Email: {{ $users->email }}</p>
+<p>Email: {{ $user->email }}</p>
 
-<p>Thank you for joining us.</p>
+<p>Thank you.</p>

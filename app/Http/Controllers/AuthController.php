@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Users;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistrationMail;
 
 class AuthController extends Controller
 {
@@ -24,10 +26,10 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email'
-           // 'password' => 'required|min:6'
+            // 'password' => 'required|min:6'
         ]);
 
-        Users::create([
+        $user = Users::create([
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -36,6 +38,9 @@ class AuthController extends Controller
         ]);
 
 //        return redirect()->route('auth.login')->with('success', 'Registration successful');
+//        Mail::to($user->email)->send(new UserRegistrationMail($user));
+        Mail::to($user->email)->queue(new UserRegistrationMail($user));
+
         return back()->with('success', 'Registration successful');
     }
 
@@ -46,8 +51,8 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (Auth::attempt(['username' => $request->username,'password' => $request->password]))
-        { $user = Auth::user();
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            $user = Auth::user();
 
             if ($user->active_status != 'Y') {
                 Auth::logout();

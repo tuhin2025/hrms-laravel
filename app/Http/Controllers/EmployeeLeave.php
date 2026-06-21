@@ -24,12 +24,12 @@ class EmployeeLeave extends Controller
     {
         $employees = DB::table('employees')
             ->join('departments', 'employees.department_id', '=', 'departments.department_id')
-            ->join('jobs', 'employees.job_id', '=', 'jobs.job_id')
+            ->join('jobs_hr', 'employees.job_id', '=', 'jobs_hr.job_id')
             ->select('employees.employee_id',
                 'employees.first_name',
                 'employees.last_name',
                 'employees.job_id',
-                'jobs.job_title',
+                'jobs_hr.job_title',
                 'employees.department_id',
                 'departments.department_name')
             ->orderBy('employees.employee_id', 'ASC')
@@ -60,13 +60,13 @@ class EmployeeLeave extends Controller
     {
         $data = DB::table('emp_leave_applications')
             ->join('employees', 'emp_leave_applications.employee_id', '=', 'employees.employee_id')
-            ->join('jobs', 'employees.job_id', '=', 'jobs.job_id')
+            ->join('jobs_hr', 'employees.job_id', '=', 'jobs_hr.job_id')
             ->join('departments', 'employees.department_id', '=', 'departments.department_id')
             ->join('l_leave_type', 'emp_leave_applications.leave_type', '=', 'l_leave_type.leave_type_id')
             ->select('employees.first_name',
                 'employees.last_name',
                 'departments.department_name',
-                'jobs.job_title',
+                'jobs_hr.job_title',
                 'l_leave_type.leave_type_name',
                 'emp_leave_applications.from_date',
                 'emp_leave_applications.to_date',
