@@ -74,6 +74,18 @@ class OraclehrController extends BaseController
 
         return redirect()->back()->with('success', 'Deleted');
     }
+
+
+    public function jobTypeData()
+    {
+        $data = DB::table('employees as e')
+            ->join('jobs_hr as j', 'e.job_id', '=', 'j.job_id')
+            ->select('j.job_title as job_type', DB::raw('count(*) as total'))
+            ->groupBy('j.job_title')
+            ->get();
+
+        return response()->json($data);
+    }
 }
 
 ;

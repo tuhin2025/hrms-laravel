@@ -46,6 +46,9 @@ Route::middleware(['auth'])->prefix('hr')->name('hr.')->group(function () {
     Route::get('/dept-edit/{id}', [OraclehrController::class, 'deptEdit'])->name('dept-edit');
     Route::put('/dept-update/{id}', [OraclehrController::class, 'deptUpdate'])->name('dept-update');
     Route::delete('/dept-delete/{id}', [OraclehrController::class, 'deptDelete'])->name('dept-delete');
+
+    Route::get('/job-type-data', [OraclehrController::class, 'jobTypeData'])->name('job-type-data');
+
 });
 
 
