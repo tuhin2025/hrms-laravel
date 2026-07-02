@@ -23,7 +23,7 @@ use App\Http\Controllers\OraclehrController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeAttendance;
 use App\Http\Controllers\EmployeeLeave;
-
+use App\Http\Controllers\JobsControllers;
 use App\Http\Controllers\AuthController;
 
 Route::prefix('auth')->name('auth.')->group(function () {
@@ -92,6 +92,13 @@ Route::middleware(['auth'])->prefix('leave')->name('leave.')->group(function () 
 //    Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');
 });
 
+Route::middleware(['auth'])->prefix('job')->name('job.')->group(function () {
+    Route::get('/', [JobsControllers::class, 'index'])->name('index');
+    Route::get('/jobs-edit/{id}', [JobsControllers::class, 'edit'])->name('jobs-edit');
+    Route::post('/jobs-store', [JobsControllers::class, 'store'])->name('jobs-store');
+    Route::get('/jobs-delete/{id}', [JobsControllers::class, 'delete'])->name('jobs-delete');
+    Route::put('/jobs-update/{id}', [JobsControllers::class, 'update'])->name('jobs-update');
+});
 Route::prefix('external-api')->name('external.')->group(function () {
     Route::get('/users', [ExternalApiController::class, 'getUsers'])->name('users');
 

@@ -8,9 +8,10 @@ class job extends Model
 {
 
     protected $table = 'jobs_hr';
-    protected $primaryKey = 'job_id';
+//    protected $primaryKey = 'job_id';
     public $timestamps = false;
     protected $fillable = [
+        'job_id',
         'job_title',
         'min_salary',
         'max_salary'

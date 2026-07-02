@@ -11,5 +11,5 @@
     <a href="{{ route('leave.index') }}">🏢 Leave Application</a>
 
 {{--    <a href="{{ url('/hr/deptsdsdsdsd') }}">🏢 Departments</a>--}}
-    <a href="{{ url('/hr/job') }}">💼 Jobs</a>
+    <a href="{{ route('job.index') }}">💼 Jobs</a>
 </div>
