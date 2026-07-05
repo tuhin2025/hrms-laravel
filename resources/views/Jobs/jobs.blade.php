@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
     <div class="container-fluid">
 
         <!-- Job Entry -->
@@ -122,6 +120,19 @@
                                        class="btn btn-warning btn-sm">
                                         Edit
                                     </a>
+                                    <form id="delete-form-{{ $item->job_id }}"
+                                          action="{{ route('job.jobs-delete', $item->job_id) }}"
+                                          method="POST"
+                                          style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="confirmDelete('{{ $item->job_id }}')">
+                                            Delete
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
@@ -142,4 +153,23 @@
     </div>
 @endsection
 
-@section('breadcrumb')
+
+<script>
+    function confirmDelete(id) {
+       // alert(id);
+        Swal.fire({
+
+            title: 'Are you sure?',
+            text: "This data will be deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+</script>

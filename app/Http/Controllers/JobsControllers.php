@@ -96,5 +96,12 @@ class JobsControllers extends BaseController
         return redirect()->route('job.index')->with('success', 'Updated');
     }
 
+    public function delete($id)
+    {
+        Job::where('job_id', $id)->delete();
+
+        return redirect()->back()->with('success', 'Deleted');
+    }
+
 }
 

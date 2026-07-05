@@ -99,7 +99,7 @@ Route::middleware(['auth'])->prefix('job')->name('job.')->group(function () {
     Route::get('/', [JobsControllers::class, 'index'])->name('index');
     Route::get('/jobs-edit/{id}', [JobsControllers::class, 'edit'])->name('jobs-edit');
     Route::post('/jobs-store', [JobsControllers::class, 'store'])->name('jobs-store');
-    Route::get('/jobs-delete/{id}', [JobsControllers::class, 'delete'])->name('jobs-delete');
+    Route::delete('/jobs-delete/{id}', [JobsControllers::class, 'delete'])->name('jobs-delete');
     Route::put('/jobs-update/{id}', [JobsControllers::class, 'update'])->name('jobs-update');
 });
 

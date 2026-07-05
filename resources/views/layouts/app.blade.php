@@ -93,16 +93,6 @@
         }
 
     /*    Nofification*/
-        .header{
-            height:60px;
-            background:#fff;
-            position:fixed;
-            top:0;
-            left:230px;
-            right:0;
-            z-index:1000;
-        }
-
         .notification-btn{
             position:relative;
             text-decoration:none;

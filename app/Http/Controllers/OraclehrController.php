@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use app\models\job;
+use App\Models\notifications;
+use App\Models\Users;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -10,9 +11,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
 
-//use App\Models\Department;
-//use App\Models\Employee;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OraclehrController extends BaseController
@@ -42,13 +41,39 @@ class OraclehrController extends BaseController
 
     public function deptStore(Request $request)
     {
-        \App\Models\Department::create([
-            'department_name' => $request->department_name,
-            'manager_id' => $request->manager_id,
-            'location_id' => $request->location_id
-        ]);
 
-        return redirect()->back()->with('success', 'Department Added');
+        DB::beginTransaction();
+        try {
+            \App\Models\Department::create([
+                'department_name' => $request->department_name,
+                'manager_id' => $request->manager_id,
+                'location_id' => $request->location_id
+            ]);
+
+            $users = Users::all();
+            $loginUser = Auth::user();
+            foreach ($users as $user) {
+                notifications::create([
+                    'title' => 'New Dept Created',
+                    'message' => 'A New Department "' . $request->department_name . '" has been created.',
+                    'type' => 'Dept',
+                    'is_read' => '0',
+                    'user_id' => $user->user_id,
+                    'insert_by' => $loginUser->user_id,
+                    'insert_dt' => now()
+
+                ]);
+            }
+            DB::commit();
+            return redirect()->back()->with('success', 'Department Added');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
     }
 
     public function deptEdit($id)

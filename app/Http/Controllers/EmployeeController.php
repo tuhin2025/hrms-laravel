@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\notifications;
+use App\Models\Users;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -9,6 +11,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -35,12 +38,10 @@ class EmployeeController extends BaseController
     }
 
 
-
-
     public function empStore(Request $request)
     {
         try {
-
+            DB::beginTransaction();
             $request->validate(
                 [
                     'first_name' => 'required',
@@ -79,10 +80,25 @@ class EmployeeController extends BaseController
                 'emp_image' => $base64Image
             ]);
 
+            $users = Users::all();
+            $loginUser = Auth::user();
+            foreach ($users as $user) {
+                notifications::create([
+                    'title' => 'A New Employee Joined',
+                    'message' => 'A New Employee "' . $request->first_name . ' ' . $request->last_name . '" has been Joined.',
+                    'type' => 'EMP',
+                    'is_read' => '0',
+                    'user_id' => $user->user_id,
+                    'insert_by' => $loginUser->user_id,
+                    'insert_dt' => now()
+
+                ]);
+            }
+            DB::commit();
             return redirect()->back()->with('success', 'Employee Added Successfully');
 
         } catch (Exception $e) {
-
+            DB::rollBack();
             return redirect()->back()
                 ->with('error', 'Something went wrong!')
                 ->withInput();
@@ -96,7 +112,7 @@ class EmployeeController extends BaseController
         $employees = Employee::with('department', 'job')
             ->paginate(5);
         $departments = Department::all();
-       // $employees = Employee::all();
+        // $employees = Employee::all();
         $job = job::all();
         return view('employee.employee', compact('employee', 'departments', 'employees', 'job'));
     }

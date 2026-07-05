@@ -5,39 +5,30 @@
         <i class="fas fa-users text-primary me-2 fs-4"></i>
 
         <h5 class="mb-0 fw-bold text-primary">
-            HR Management System
+            HRM System
         </h5>
     </div>
 
     <!-- Slogan -->
     <div class="flex-grow-1 mx-4 d-none d-lg-block">
 
-        <div id="headerCarousel"
-             class="carousel slide carousel-fade"
-             data-bs-ride="carousel"
-             data-bs-interval="3000">
+        <marquee behavior="scroll"
+                 direction="left"
+                 scrollamount="5"
+                 onmouseover="this.stop();"
+                 onmouseout="this.start();">
 
-            <div class="carousel-inner text-center">
+        <span class="text-muted fw-semibold">
+            📢 Empowering Smart Human Resource Management &nbsp;&nbsp;&nbsp;&nbsp;|
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            👨‍💼 Manage Employees Easily & Efficiently &nbsp;&nbsp;&nbsp;&nbsp;|
+            &nbsp;&nbsp;&nbsp;&nbsp;
+{{--            📊 Smart HR Analytics for Better Decisions &nbsp;&nbsp;&nbsp;&nbsp;|--}}
+{{--            &nbsp;&nbsp;&nbsp;&nbsp;--}}
+            🎯 Employee Performance • Payroll • Leave • Attendance
+        </span>
 
-                <div class="carousel-item active">
-                    <small class="text-muted">
-                        Empowering Smart Human Resource Management
-                    </small>
-                </div>
-
-                <div class="carousel-item">
-                    <small class="text-muted">
-                        Manage Employees Easily & Efficiently
-                    </small>
-                </div>
-
-                <div class="carousel-item">
-                    <small class="text-muted">
-                        Smart HR Analytics for Better Decisions
-                    </small>
-                </div>
-            </div>
-        </div>
+        </marquee>
 
     </div>
 
@@ -86,10 +77,13 @@
                                     @case('job')
                                     <i class="fas fa-briefcase"></i>
                                     @break
+                                    @case('Dept')
+                                    <i class="fas fa-briefcase"></i>
+                                    @break
                                     @case('leave')
                                     <i class="fas fa-calendar-alt"></i>
                                     @break
-                                    @case('employee')
+                                    @case('EMP')
                                     <i class="fas fa-user-plus"></i>
                                     @break
                                     @default
@@ -105,9 +99,10 @@
                                     {{ $notification->message }}
                                 </small>
                                 <br>
-{{--                                <small class="text-muted">--}}
-{{--                                    {{ $notification->created_at->diffForHumans() }}--}}
-{{--                                </small>--}}
+                                <small class="text-muted">
+                                    {{--                                    {{ $notification->created_at->diffForHumans() }}--}}
+                                    {{ \Carbon\Carbon::parse($notification->insert_dt)->diffForHumans() }}
+                                </small>
                             </div>
 
                             @if(!$notification->is_read)
