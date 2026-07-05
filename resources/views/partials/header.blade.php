@@ -1,32 +1,22 @@
-{{--<div class="header d-flex justify-content-between">--}}
-{{--    <h4 class="fw-bold text-primary text-center">--}}
-{{--        HR Management System--}}
-{{--    </h4>--}}
-{{--    <p class="mb-0 text-muted text-center">--}}
-{{--        Smart HR Solution for Modern Organizations--}}
-{{--    </p>--}}
-{{--    <div>--}}
-{{--        Admin |--}}
-{{--        <a href="#">Logout</a>--}}
-{{--    </div>--}}
-{{--</div>--}}
+<div class="header d-flex justify-content-between align-items-center px-3 shadow-sm">
 
-<div class="header mb-0 d-flex justify-content-between align-items-center px-3 shadow-sm"
-     style="height: 45px; background: #fff; position: fixed;  left: 230px; right: 0; z-index: 1000;">
+    <!-- Logo -->
+    <div class="d-flex align-items-center">
+        <i class="fas fa-users text-primary me-2 fs-4"></i>
 
-    <!-- LEFT: Logo -->
-    <div class="d-flex align-items-center gap-2">
-        <span style="font-size: 18px;">🏢</span>
-        <div>
-            <h6 class="mb-0 fw-bold text-primary">HR Management System</h6>
-        </div>
+        <h5 class="mb-0 fw-bold text-primary">
+            HR Management System
+        </h5>
     </div>
 
-    <!-- CENTER: Slogan Carousel -->
-    <div class="flex-grow-1 mx-3 d-none d-md-block">
+    <!-- Slogan -->
+    <div class="flex-grow-1 mx-4 d-none d-lg-block">
 
-        <div id="headerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2500"
-             data-bs-pause="hover">
+        <div id="headerCarousel"
+             class="carousel slide carousel-fade"
+             data-bs-ride="carousel"
+             data-bs-interval="3000">
+
             <div class="carousel-inner text-center">
 
                 <div class="carousel-item active">
@@ -46,72 +36,136 @@
                         Smart HR Analytics for Better Decisions
                     </small>
                 </div>
-
             </div>
-
         </div>
 
     </div>
 
-    <!-- RIGHT: optional -->
-    {{--    <div>--}}
-    {{--        <form method="POST" action="{{ route('auth.logout') }}">--}}
-    {{--            @csrf--}}
+    <!-- Right Side -->
+    <div class="d-flex align-items-center">
 
-    {{--            <button type="submit" class="btn btn-danger btn-sm">--}}
-    {{--                Logout--}}
-    {{--            </button>--}}
-    {{--        </form>--}}
-    {{--    </div>--}}
+        <!-- Notification -->
+        <div class="dropdown me-3">
 
-    @if(Auth::check())
-        <div class="d-flex align-items-center gap-2">
+            <a href="#"
+               class="notification-btn"
+               data-bs-toggle="dropdown">
 
-            <div class="text-end">
-                <small class="text-muted">
-                    {{ ucwords(Auth::user()->username) }}
-                </small>
+                <i class="fa-regular fa-bell"></i>
 
+                @if($unreadCount>0)
+
+                    <span class="notification-count">
+
+                        {{ $unreadCount > 99 ? '99+' : $unreadCount }}
+
+                    </span>
+                @endif
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                <div class="notification-header">
+                    <h6>
+                        <i class="fas fa-bell me-2"></i>
+                        Notifications
+                    </h6>
+
+                    <span class="badge bg-primary">
+                        {{ $unreadCount }}
+                    </span>
+                </div>
+
+                <div class="notification-body">
+
+                    @forelse($notifications as $notification)
+                        <a href="{{ route('hr.notification-read',$notification->id) }}"
+                           class="notification-item">
+                            <div class="notification-icon">
+
+                                @switch($notification->type)
+                                    @case('job')
+                                    <i class="fas fa-briefcase"></i>
+                                    @break
+                                    @case('leave')
+                                    <i class="fas fa-calendar-alt"></i>
+                                    @break
+                                    @case('employee')
+                                    <i class="fas fa-user-plus"></i>
+                                    @break
+                                    @default
+                                    <i class="fas fa-bell"></i>
+                                @endswitch
+                            </div>
+
+                            <div class="notification-content">
+                                <div class="fw-bold">
+                                    {{ $notification->title }}
+                                </div>
+                                <small>
+                                    {{ $notification->message }}
+                                </small>
+                                <br>
+{{--                                <small class="text-muted">--}}
+{{--                                    {{ $notification->created_at->diffForHumans() }}--}}
+{{--                                </small>--}}
+                            </div>
+
+                            @if(!$notification->is_read)
+                                <span class="notification-dot"></span>
+                            @endif
+                        </a>
+                    @empty
+                        <div class="text-center py-5">
+                            <i class="far fa-bell-slash fa-3x text-muted mb-3"></i>
+                            <div class="text-muted">
+                                No Notifications
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+
+                <div class="notification-footer">
+                    <a href="#">
+                        View All Notifications
+                    </a>
+                </div>
             </div>
+        </div>
+
+        <!-- User -->
+        @if(Auth::check())
 
             <div class="dropdown">
 
-                <a href="#" class="d-flex align-items-center text-decoration-none"
-                   data-bs-toggle="dropdown">
+                <a href="#"
+                   data-bs-toggle="dropdown"
+                   class="d-flex align-items-center text-decoration-none">
 
-                    <img src="{{ asset('image/' . (Auth::user()->emp_image ?? 'tuhin.png')) }}"
-                         class="rounded-circle"
-                         width="30">
+                    <img src="{{ asset('image/'.(Auth::user()->emp_image ?? 'tuhin.png')) }}"
+                         class="rounded-circle border"
+                         width="36"
+                         height="36">
+                    <span class="ms-2 fw-semibold">
+
+                        {{ Auth::user()->username }}
+                    </span>
+                    <i class="fas fa-chevron-down ms-2 small"></i>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end">
-
-                    {{--                <li>--}}
-                    {{--                    <a class="dropdown-item" href="#">--}}
-                    {{--                        Profile--}}
-                    {{--                    </a>--}}
-                    {{--                </li>--}}
-
-                    {{--                <li>--}}
-                    {{--                    <a class="dropdown-item" href="#">--}}
-                    {{--                        Settings--}}
-                    {{--                    </a>--}}
-                    {{--                </li>--}}
-
-                    {{--                <li><hr class="dropdown-divider"></li>--}}
-
                     <li>
-                        <form action="{{ route('auth.logout') }}" method="POST">
+                        <form action="{{ route('auth.logout') }}"
+                              method="POST">
                             @csrf
-
                             <button class="dropdown-item text-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i>
                                 Logout
                             </button>
                         </form>
                     </li>
                 </ul>
             </div>
-        </div>
-    @endif
+        @endif
+    </div>
 
 </div>

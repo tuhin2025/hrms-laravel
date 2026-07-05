@@ -25,6 +25,7 @@ use App\Http\Controllers\EmployeeAttendance;
 use App\Http\Controllers\EmployeeLeave;
 use App\Http\Controllers\JobsControllers;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotificationController;
 
 Route::prefix('auth')->name('auth.')->group(function () {
 
@@ -41,6 +42,8 @@ Route::prefix('auth')->name('auth.')->group(function () {
 Route::middleware(['auth'])->prefix('hr')->name('hr.')->group(function () {
 
     Route::get('/', [OraclehrController::class, 'index'])->name('index');
+//    Route::get('/notification', [NotificationController::class, 'notification'])->name('notification');
+    Route::get('/read/{id}', [NotificationController::class, 'read'])->name('notification-read');
     Route::get('/dept-list', [OraclehrController::class, 'deptList'])->name('dept-list');
     Route::post('/dept-store', [OraclehrController::class, 'deptStore'])->name('dept-store');
     Route::get('/dept-edit/{id}', [OraclehrController::class, 'deptEdit'])->name('dept-edit');
@@ -99,6 +102,10 @@ Route::middleware(['auth'])->prefix('job')->name('job.')->group(function () {
     Route::get('/jobs-delete/{id}', [JobsControllers::class, 'delete'])->name('jobs-delete');
     Route::put('/jobs-update/{id}', [JobsControllers::class, 'update'])->name('jobs-update');
 });
+
+
+
+
 Route::prefix('external-api')->name('external.')->group(function () {
     Route::get('/users', [ExternalApiController::class, 'getUsers'])->name('users');
 

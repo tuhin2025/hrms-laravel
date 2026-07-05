@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\job;
-
+use App\Models\notifications;
+use App\Models\Users;
 
 class JobsControllers extends BaseController
 {
@@ -29,21 +30,44 @@ class JobsControllers extends BaseController
             'min_salary' => 'nullable|numeric',
             'max_salary' => 'nullable|numeric',
         ]);
+        DB::beginTransaction();
+        try {
+            // Create new job
+            $job = Job::create([
+                'job_id' => $request->job_id,
+                'job_title' => $request->job_title,
+                'min_salary' => $request->min_salary,
+                'max_salary' => $request->max_salary,
+            ]);
 
-        // Create new job
-        $job = Job::create([
-            'job_id' => $request->job_id,
-            'job_title' => $request->job_title,
-            'min_salary' => $request->min_salary,
-            'max_salary' => $request->max_salary,
-        ]);
+// Notify all users
+            $users = Users::all();
+            //$loginUser = auth()->id();
+            $loginUser = Auth::user();
+//        dd($loginUser);
 
-//        return response()->json([
-//            'success' => true,
-//            'message' => 'Job created successfully.',
-//            'data' => $job
-//        ]);
-        return redirect()->back()->with('success', 'Department Added');
+            foreach ($users as $user) {
+                notifications::create([
+                    'title' => 'New Job Created',
+                    'message' => 'A new job "' . $job->job_title . '" has been created.',
+                    'type' => 'job',
+                    'is_read' => '0',
+                    'user_id' => $user->user_id,
+                    'insert_by' => $loginUser->user_id,
+                    'insert_dt' => now()
+
+                ]);
+            }
+            DB::commit();
+            return redirect()->back()->with('success', 'Department Added');
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
     }
 
 
@@ -67,7 +91,6 @@ class JobsControllers extends BaseController
             'min_salary' => $request->min_salary,
             'max_salary' => $request->max_salary,
         ]);
-
 
 
         return redirect()->route('job.index')->with('success', 'Updated');

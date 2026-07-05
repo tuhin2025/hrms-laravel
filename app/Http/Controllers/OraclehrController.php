@@ -8,6 +8,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+
+
 //use App\Models\Department;
 //use App\Models\Employee;
 
@@ -24,8 +26,10 @@ class OraclehrController extends BaseController
         $employeeCount = \App\Models\Employee::count();
         $jobCount = \App\Models\job::count();
 
-        return view('hr.dashboard', compact('departmentCount', 'employeeCount','jobCount'));
+
+        return view('hr.dashboard', compact('departmentCount', 'employeeCount', 'jobCount'));
     }
+
 
     public function deptList()
     {
@@ -40,8 +44,8 @@ class OraclehrController extends BaseController
     {
         \App\Models\Department::create([
             'department_name' => $request->department_name,
-            'manager_id' => $request-> manager_id,
-            'location_id'=> $request-> location_id
+            'manager_id' => $request->manager_id,
+            'location_id' => $request->location_id
         ]);
 
         return redirect()->back()->with('success', 'Department Added');
@@ -62,7 +66,7 @@ class OraclehrController extends BaseController
 
         $dept->update([
             'department_name' => $request->department_name,
-            'location_id'     => $request->location_id, // ✅ ADD THIS
+            'location_id' => $request->location_id, // ✅ ADD THIS
         ]);
 
         return redirect()->route('hr.dept-list')->with('success', 'Updated');

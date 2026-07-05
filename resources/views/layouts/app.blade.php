@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
     <style>
@@ -89,6 +91,126 @@
             padding: 20px;
             overflow-y: auto;
         }
+
+    /*    Nofification*/
+        .header{
+            height:60px;
+            background:#fff;
+            position:fixed;
+            top:0;
+            left:230px;
+            right:0;
+            z-index:1000;
+        }
+
+        .notification-btn{
+            position:relative;
+            text-decoration:none;
+            color:#495057;
+            font-size:22px;
+            transition:.3s;
+        }
+
+        .notification-btn:hover{
+            color:#0d6efd;
+        }
+
+        .notification-btn:hover i{
+            transform:rotate(15deg);
+        }
+
+        .notification-count{
+            position:absolute;
+            top:-8px;
+            right:-10px;
+            background:#dc3545;
+            color:#fff;
+            font-size:10px;
+            min-width:18px;
+            height:18px;
+            border-radius:50px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-weight:600;
+        }
+
+        .notification-dropdown{
+            width:380px;
+            border:none;
+            border-radius:15px;
+            overflow:hidden;
+            box-shadow:0 10px 30px rgba(0,0,0,.15);
+        }
+
+        .notification-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:15px 20px;
+            border-bottom:1px solid #eee;
+        }
+
+        .notification-body{
+            max-height:420px;
+            overflow-y:auto;
+        }
+
+        .notification-item{
+            display:flex;
+            align-items:flex-start;
+            padding:15px;
+            text-decoration:none;
+            color:#333;
+            transition:.25s;
+            border-bottom:1px solid #f3f3f3;
+        }
+
+        .notification-item:hover{
+            background:#f8f9fa;
+        }
+
+        .notification-icon{
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            background:#0d6efd;
+            color:#fff;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-shrink:0;
+        }
+
+        .notification-content{
+            flex:1;
+            margin-left:15px;
+        }
+
+        .notification-content small{
+            color:#6c757d;
+        }
+
+        .notification-dot{
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background:#0d6efd;
+            margin-top:8px;
+        }
+
+        .notification-footer{
+            padding:12px;
+            text-align:center;
+            border-top:1px solid #eee;
+        }
+
+        .notification-footer a{
+            text-decoration:none;
+            font-weight:600;
+        }
+
+
     </style>
 </head>
 <body>
