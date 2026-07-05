@@ -203,3 +203,15 @@ create table users
         unique (username)
 );
 
+create table notifications
+(
+    id        bigint auto_increment
+        primary key,
+    title     varchar(2000) null,
+    message   varchar(2000) null,
+    type      varchar(2000) null,
+    user_id   bigint        null,
+    is_read   tinyint(1)    null,
+    insert_by bigint        null,
+    insert_dt datetime      null
+);
