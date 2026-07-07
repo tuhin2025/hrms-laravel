@@ -26,6 +26,8 @@ use App\Http\Controllers\EmployeeLeave;
 use App\Http\Controllers\JobsControllers;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\EmpQualification;
+
 
 Route::prefix('auth')->name('auth.')->group(function () {
 
@@ -62,6 +64,16 @@ Route::middleware(['auth'])->prefix('employee')->name('employee.')->group(functi
     Route::get('/emp-edit/{id}', [EmployeeController::class, 'empEdit'])->name('emp-edit');
     Route::put('/emp-update/{id}', [EmployeeController::class, 'empUpdate'])->name('emp-update');
     Route::delete('/emp-delete/{id}', [EmployeeController::class, 'empDelete'])->name('emp-delete');
+    //Route::post('/emp-qualification', [EmpQualification::class, 'empStore'])->name('edu-dtl');
+});
+
+Route::prefix('employee')->name('employee.')->middleware('auth')->group(function () {
+
+    Route::get('/qualification', [EmpQualification::class, 'index'])->name('qualification.index');
+    Route::post('/qualification', [EmpQualification::class, 'store'])->name('qualification.store');
+//    Route::get('/qualification/{id}/edit', [EmpQualificationController::class, 'edit'])->name('qualification.edit');
+//    Route::put('/qualification/{id}', [EmpQualificationController::class, 'update'])->name('qualification.update');
+//    Route::delete('/qualification/{id}', [EmpQualificationController::class, 'destroy'])->name('qualification.destroy');
 });
 
 
@@ -103,11 +115,11 @@ Route::middleware(['auth'])->prefix('job')->name('job.')->group(function () {
     Route::put('/jobs-update/{id}', [JobsControllers::class, 'update'])->name('jobs-update');
 });
 
-
-
-
 Route::prefix('external-api')->name('external.')->group(function () {
     Route::get('/users', [ExternalApiController::class, 'getUsers'])->name('users');
+
+
+
 
 
 });

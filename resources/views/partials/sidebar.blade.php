@@ -5,7 +5,8 @@
     <h4 class="text-center py-2 border-bottom">HRMS</h4>
 
     <a href="{{ url('/hr') }}">🏠 Dashboard</a>
-    <a href="{{ route('employee.index') }}">👨‍💼 Employees</a>
+    <a href="{{ route('employee.index') }}">👨‍ Employees</a>
+    <a href="{{ route('employee.qualification.store') }}">🎓 Emp Qualification</a>
     <a href="{{ route('hr.dept-list') }}">🏢 Departments</a>
     <a href="{{ route('attendance.index') }}">🏢 Attendance</a>
     <a href="{{ route('leave.index') }}">🏢 Leave Application</a>

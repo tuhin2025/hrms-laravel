@@ -215,3 +215,46 @@ create table notifications
     insert_by bigint        null,
     insert_dt datetime      null
 );
+
+
+
+-- auto-generated definition
+create table emp_qualification_master
+(
+    mst_id      bigint auto_increment
+        primary key,
+    employee_id bigint                                null,
+    remarks     varchar(500)                          null,
+    insert_by   bigint                                null,
+    insert_dt   timestamp default current_timestamp() not null,
+    updated_by  bigint                                null,
+    updated_dt  timestamp                             null,
+    status      char      default 'A'                 null
+);
+
+-- auto-generated definition
+create table emp_qualification_detail
+(
+    dtl_id           bigint auto_increment
+        primary key,
+    mst_id           bigint                                    not null,
+    education_level  varchar(50)                               null,
+    degree_name      varchar(200)                              null,
+    group_subject    varchar(200)                              null,
+    institute_name   varchar(300)                              null,
+    board_university varchar(200)                              null,
+    passing_year     year                                      null,
+    result_type      enum ('CGPA', 'GPA', 'Division', 'Class') null,
+    result_value     varchar(20)                               null,
+    duration         varchar(50)                               null,
+    is_current       char      default 'N'                     null,
+    attachment       varchar(300)                              null,
+    created_by       bigint                                    null,
+    created_at       timestamp default current_timestamp()     not null,
+    updated_by       bigint                                    null,
+    updated_at       timestamp                                 null,
+    constraint fk_eqd_master
+        foreign key (mst_id) references emp_qualification_master (mst_id)
+            on delete cascade
+);
+
