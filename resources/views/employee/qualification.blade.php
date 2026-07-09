@@ -11,21 +11,29 @@
 
                 <div class="card-body">
 
-                    <form id="qualificationForm" action="{{ route('employee.qualification.store') }}" method="POST">
+                    <form id="qualificationForm"
+                          action="{{ isset($masterData) ? route('employee.qualification.update', $masterData->mst_id) : route('employee.qualification.store') }}"
+                          method="POST">
                     @csrf
+                    @if(isset($masterData))
+                        @method('PUT')
+                    @endif
 
                     <!-- Employee Information -->
                         <div class="row no-gutters">
                             <div class="col-md-3 mb-3">
                                 <label>Employee <span class="text-danger">*</span></label>
+
                                 <select name="employee_id"
                                         id="employee_id"
                                         class="form-control form-control-sm"
                                         required>
-                                    <option value=""> Select Employee</option>
+                                    <option value="">Select Employee</option>
+
                                     @foreach($employees as $emp)
-                                        <option value="{{ $emp->employee_id }}">
-                                            {{ $emp->first_name . ' ' . $emp->last_name }}
+                                        <option value="{{ $emp->employee_id }}"
+                                            {{ old('employee_id', $masterData->employee_id ?? '') == $emp->employee_id ? 'selected' : '' }}>
+                                            {{ $emp->first_name.' '.$emp->last_name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -63,11 +71,12 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Remarks</label>
+
                                 <textarea
                                     class="form-control form-control-sm"
                                     rows="2"
                                     name="remarks"
-                                    id="remarks">{{ old('remarks', $master->remarks ?? '') }}</textarea>
+                                    id="remarks">{{ old('remarks', $masterData->remarks ?? '') }}</textarea>
                             </div>
                         </div>
 
@@ -82,7 +91,6 @@
                             <div class="row gx-1">
                                 <div class="col-md-2">
                                     <label>Level <span class="text-danger">*</span></label>
-
                                     <select class="form-control form-control-sm" id="level" required>
                                         <option value="1">SSC</option>
                                         <option value="2">HSC</option>
@@ -133,7 +141,8 @@
 
                                         <button type="button"
                                                 id="addBtn"
-                                                class="btn btn-success btn-sm">
+                                                class="btn btn-success btn-sm {{ isset($viewMode) ? 'disabled' : '' }}"
+                                            {{ isset($viewMode) ? 'disabled' : '' }}>
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </div>
@@ -155,26 +164,60 @@
                                 </tr>
                                 </thead>
 
-                                <tbody id="qualificationTable">
+                                <tbody
+                                    id="qualificationTable">
+                                @php $sl = 1; @endphp
 
-                                </tbody>
+                                @isset($details)
+                                    @foreach($details as $detail)
+                                        <tr>
+                                            <td>{{ $sl++ }}</td>
+                                            <td> {{ $detail->education_level == 1 ? 'SSC' : ($detail->education_level == 2 ? 'HSC' : ($detail->education_level == 3 ? 'Bachelor' : 'Master')) }}
+                                                <input type="hidden" name="level[]"
+                                                       value="{{ $detail->education_level }}">
+                                            </td>
+                                            <td> {{ $detail->group_subject }} <input type="hidden" name="subject[]"
+                                                                                     value="{{ $detail->group_subject }}">
+                                            </td>
+                                            <td> {{ $detail->institute_name }} <input type="hidden" name="institute[]"
+                                                                                      value="{{ $detail->institute_name }}">
+                                            </td>
+                                            <td> {{ $detail->passing_year }} <input type="hidden" name="year[]"
+                                                                                    value="{{ $detail->passing_year }}">
+                                            </td>
+                                            <td> {{ $detail->result_value }} <input type="hidden" name="result[]"
+                                                                                    value="{{ $detail->result_value }}">
+                                            </td>
+                                            <td> {{ $detail->board_university }} <input type="hidden" name="board[]"
+                                                                                        value="{{ $detail->board_university }}">
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button"
+                                                        class="btn btn-warning btn-sm {{ isset($viewMode) ? 'disabled' : '' }} editRow">
+                                                    <i
+                                                        class="fa fa-edit"></i></button>
+                                                <button type="button"
+                                                        class="btn btn-danger btn-sm {{ isset($viewMode) ? 'disabled' : '' }} removeRow">
+                                                    <i
+                                                        class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr> @endforeach
+                                @endisset </tbody>
 
                             </table>
                         </fieldset>
 
                         <div class="text-end mt-1">
-
-                            <button type="button"
-                                    class="btn btn-primary"
-                                    id="saveBtn">
-                                Save
-                            </button>
-                            {{--                            <button class="btn btn-success">--}}
-                            {{--                                Update--}}
-                            {{--                            </button>--}}
-                            <a href="{{ url()->previous() }}"
+                            @if(!isset($viewMode))
+                                <button type="button"
+                                        class="btn btn-primary"
+                                        id="saveBtn">
+                                    {{ isset($masterData) ? 'Update' : 'Save' }}
+                                </button>
+                            @endif
+                            <a href="{{ route('employee.qualification.index') }}"
                                class="btn btn-secondary">
-                                Cancel
+                                Back
                             </a>
                         </div>
                     </form>
@@ -191,29 +234,57 @@
         <legend class="float-none w-auto px-1 fs-6">
             Qualification List
         </legend>
+
         <div class="table-responsive">
             <table class="table table-bordered table-sm text-center">
                 <thead class="thead-dark">
                 <tr class="text-center">
                     <th width="5%">SL</th>
-                    <th>Level</th>
-                    <th>Degree</th>
-                    <th>Subject</th>
-                    <th>Institute</th>
-                    <th>Year</th>
-                    <th>Result</th>
-                    <th>Board/University</th>
+                    <th>Emp Name</th>
+                    <th>Join Date</th>
+                    <th>Departtment</th>
+                    <th>Designation</th>
                     <th width="10%">Action</th>
                 </tr>
 
                 </thead>
                 <tbody id="qualificationTableList">
-                <tr>
+                @if(isset($qualifications))
+                    @foreach($qualifications as $key => $list)
+                        <tr>
+                            <td class="text-center">{{ $qualifications->firstItem() + $key }}</td>
+                            <td class="text-start">{{ $list->emp_name }}</td>
+                            <td class="text-start">{{ $list->hire_date }}</td>
+                            <td class="text-start">{{ $list->department_name }}</td>
+                            <td class="text-start">{{ $list->job_title }}</td>
+                            {{--                            <td class="text-center">{{ $list->passing_year }}</td>--}}
+                            {{--                            <td class="text-center">{{ $list->result_value }}</td>--}}
+                            {{--                            <td class="text-start">{{ $list->board_university }}</td>--}}
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-1">
+                                    <a href="{{ route('employee.qualification.edit', $list->mst_id) }}"
+                                       class="btn btn-warning btn-sm">
+                                        Edit
+                                    </a>
 
-                </tr>
+                                    <a href="{{ route('employee.qualification.view', $list->mst_id) }}"
+                                       class="btn btn-info btn-sm">
+                                        View
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
                 </tbody>
             </table>
+            @if(isset($qualifications))
+                <div class="d-flex justify-content-end mt-3">
+                    {{ $qualifications->links() }}
+                </div>
+            @endif
         </div>
+
     </fieldset>
 @endsection
 
@@ -228,8 +299,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
-
-
         $("#saveBtn").click(function () {
 
             let employee_id = $("#employee_id").val();
@@ -366,6 +435,52 @@
 
         $(document).on('click', '.removeRow', function () {
             $(this).closest('tr').remove();
+        });
+
+        $(document).ready(function () {
+
+            @if(isset($viewMode))
+            $('#qualificationForm')
+                .find('input, select, textarea')
+                .prop('disabled', true);
+
+            $('#level').val('').trigger('change');
+            $('#year').val('').trigger('change');
+
+            $('#addBtn, #saveBtn, .editRow, .removeRow')
+                .prop('disabled', true);
+            @else
+            $('#qualificationForm')
+                .find('input, select, textarea')
+                .prop('disabled', false);
+
+            $('#addBtn, #saveBtn, .editRow, .removeRow')
+                .prop('disabled', false);
+            @endif
+
+        });
+
+        function editMode() {
+
+            $('#employee_id').prop('disabled', true);
+
+            // Hidden field so employee_id is submitted
+            if ($('#qualificationForm input[name="employee_id"]').length === 0) {
+
+                $('<input>', {
+                    type: 'hidden',
+                    name: 'employee_id',
+                    value: $('#employee_id').val()
+                }).appendTo('#qualificationForm');
+
+            }
+        }
+
+        $(document).ready(function () {
+
+            @if(isset($masterData) && !isset($viewMode))
+            editMode();
+            @endif
         });
 
     });

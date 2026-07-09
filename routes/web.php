@@ -71,8 +71,9 @@ Route::prefix('employee')->name('employee.')->middleware('auth')->group(function
 
     Route::get('/qualification', [EmpQualification::class, 'index'])->name('qualification.index');
     Route::post('/qualification', [EmpQualification::class, 'store'])->name('qualification.store');
-//    Route::get('/qualification/{id}/edit', [EmpQualificationController::class, 'edit'])->name('qualification.edit');
-//    Route::put('/qualification/{id}', [EmpQualificationController::class, 'update'])->name('qualification.update');
+    Route::get('/qualification/{id}/edit', [EmpQualification::class, 'edit'])->name('qualification.edit');
+    Route::get('/qualification/{id}/view', [EmpQualification::class, 'view'])->name('qualification.view');
+    Route::put('/qualification/{id}', [EmpQualification::class, 'update'])->name('qualification.update');
 //    Route::delete('/qualification/{id}', [EmpQualificationController::class, 'destroy'])->name('qualification.destroy');
 });
 
