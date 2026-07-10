@@ -1,16 +1,72 @@
 
+    <style>
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #fff;
+        }
 
-<div class="sidebar">
+        .sidebar.collapsed {
+            width: 70px;
+        }
 
-    <h4 class="text-center py-2 border-bottom">HRMS</h4>
+        .sidebar.collapsed h4 {
+            display: none;
+        }
 
-    <a href="{{ url('/hr') }}">🏠 Dashboard</a>
-    <a href="{{ route('employee.index') }}">👨‍ Employees</a>
-    <a href="{{ route('employee.qualification.store') }}">🎓 Emp Qualification</a>
-    <a href="{{ route('hr.dept-list') }}">🏢 Departments</a>
-    <a href="{{ route('attendance.index') }}">🏢 Attendance</a>
-    <a href="{{ route('leave.index') }}">🏢 Leave Application</a>
+        .sidebar.collapsed a span {
+            display: none;
+        }
 
-{{--    <a href="{{ url('/hr/deptsdsdsdsd') }}">🏢 Departments</a>--}}
-    <a href="{{ route('job.index') }}">💼 Jobs</a>
+        .sidebar.collapsed a {
+            justify-content: center;
+        }
+
+    </style>
+
+
+<div id="content">
+    <div id="sidebar" class="sidebar">
+
+        <h4 class="text-center text-white py-2 border-bottom">
+            HRMS
+        </h4>
+
+        <a href="{{ url('/hr') }}">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ route('employee.index') }}">
+            <i class="fas fa-users"></i>
+            <span>Employees</span>
+        </a>
+
+        <a href="{{ route('employee.qualification.store') }}">
+            <i class="fas fa-user-graduate"></i>
+            <span>Emp Qualification</span>
+        </a>
+
+        <a href="{{ route('hr.dept-list') }}">
+            <i class="fas fa-building"></i>
+            <span>Departments</span>
+        </a>
+
+        <a href="{{ route('attendance.index') }}">
+            <i class="fas fa-calendar-check"></i>
+            <span>Attendance</span>
+        </a>
+
+        <a href="{{ route('leave.index') }}">
+            <i class="fas fa-file-alt"></i>
+            <span>Leave Application</span>
+        </a>
+
+        <a href="{{ route('job.index') }}">
+            <i class="fas fa-briefcase"></i>
+            <span>Jobs</span>
+        </a>
+
+    </div>
 </div>
