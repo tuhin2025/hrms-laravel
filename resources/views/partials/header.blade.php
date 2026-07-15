@@ -1,5 +1,25 @@
-<div class="header d-flex justify-content-between align-items-center px-3 shadow-sm">
+<style>
+    :root{
+        --sidebar-width:230px;
+    }
 
+    .sidebar{
+        width:var(--sidebar-width);
+    }
+
+    .main{
+        margin-left:var(--sidebar-width);
+    }
+
+    .header,
+    .footer{
+        left:var(--sidebar-width);
+    }
+</style>
+<div class="header d-flex justify-content-between align-items-center px-3 shadow-sm">
+    <button class="btn btn-outline-secondary btn-sm" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
     <!-- Logo -->
     <div class="d-flex align-items-center">
         <i class="fas fa-users text-primary me-2 fs-4"></i>
@@ -164,3 +184,29 @@
     </div>
 
 </div>
+<script>
+
+    // document.getElementById('sidebarToggle').addEventListener('click', function () {
+    //
+    //     document.getElementById('sidebar').classList.toggle('collapsed');
+    //
+    //     document.querySelector('.main').classList.toggle('expanded');
+    //
+    //     document.querySelector('.header').classList.toggle('expanded');
+    //
+    //     document.querySelector('.footer').classList.toggle('expanded');
+    //
+    // });
+
+    const root = document.documentElement;
+
+    document.getElementById('sidebarToggle').onclick = function () {
+
+        if(document.getElementById('sidebar').classList.toggle('collapsed')){
+            root.style.setProperty('--sidebar-width','70px');
+        }else{
+            root.style.setProperty('--sidebar-width','230px');
+        }
+
+    }
+</script>
